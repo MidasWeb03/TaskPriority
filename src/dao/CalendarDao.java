@@ -177,7 +177,6 @@ public class CalendarDao implements Dao{
 			return false;
 		}
 	}
-	// read
 	public Dto readTuple(Dto dto){
 		String sql = "select * from challengeDB.task"
 				+ " where tid = ?";
@@ -210,6 +209,42 @@ public class CalendarDao implements Dao{
 			c2db.close(conn, psmt, null);
 		}
 		return null;
+	}
+	// read
+	public List<Dto> readTuples(Dto dto){
+		String sql = "select * from challengeDB.task"
+				+ " where cid = ?";
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		int tid=0, cid=0,priority=0;
+		String tname=null, sdate=null, edate=null, wdate=null,color=null, description=null;
+		CalendarDto caldto = (CalendarDto)dto;
+		List<Dto> taskList = new ArrayList<Dto>();
+		ResultSet rs;
+		try{
+			conn = c2db.getConnection();
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, caldto.getCid());
+			rs = psmt.executeQuery();
+			while(rs.next()){
+				tid = rs.getInt("tid");
+				cid = rs.getInt("cid");
+				priority = rs.getInt("priority");
+				tname = rs.getString("taskname");
+				sdate = rs.getString("startdate");
+				edate = rs.getString("enddate");
+				wdate = rs.getString("writedate");
+				color = rs.getString("color");
+				description = rs.getString("description");
+				TaskDto taskdto =new TaskDto(tid, cid, priority, tname,sdate, edate, wdate, color, description);
+				taskList.add((Dto)taskdto);
+			}
+		} catch(Exception e) {
+			log("an error from [MemberDao.deleteTuple()]", e);
+		} finally {
+			c2db.close(conn, psmt, null);
+		}
+		return taskList;
 	}
 		// please use dto as MemberDto param
 	public List<Dto> readAllTuple(Dto dto){

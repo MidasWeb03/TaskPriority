@@ -205,7 +205,7 @@ public class MemberDao implements Dao{
 		if(result == 0) return false;
 		else{
 			CalendarDao caldao = (CalendarDao)CalendarDao.getInstance();
-			caldao.addCalendar(memdto, "index");
+			caldao.addCalendar(memdto, "index", null);
 			return true;
 		}
 	}
@@ -216,19 +216,15 @@ public class MemberDao implements Dao{
 		System.out.print(str+" ");
 		e.printStackTrace();
 	}
-	@Override
+	
 	public List<MemberDto> findUser(Dto dto) {
 		MemberDto memDto = (MemberDto)dto;
-		
-		
-		
 		String sqlName = " select name , email from  challengeDB.Member"
 				+ " where name=?  ";
 		String sqlEmail= " select name , email from  challengeDB.Member"
 				+ " where email=?  ";
 		Connection conn = null;
 		PreparedStatement psmt = null;
-		
 		ResultSet rs;
 		try{
 			conn = c2db.getConnection();
