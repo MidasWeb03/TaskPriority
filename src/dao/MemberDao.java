@@ -24,7 +24,7 @@ public class MemberDao implements Dao{
 	}
 	@Override
 	public boolean addTuple(Dto dto){
-		String sql = " insert into challengeDB.Member "
+		String sql = " insert into challenge_db.Member "
 				+ " (Name, Email, Password) "
 				+ " values(?, ?, ?) ";
 		Connection conn = null;
@@ -51,7 +51,7 @@ public class MemberDao implements Dao{
 	}
 	@Override
 	public boolean deleteTuple(Dto dto){
-		String sql = "delete from challengeDB.Member"
+		String sql = "delete from challenge_db.Member"
 				+ " where Email = ?";
 		Connection conn = null;
 		PreparedStatement psmt = null;
@@ -75,7 +75,7 @@ public class MemberDao implements Dao{
 	}
 	@Override
 	public boolean updateTuple(Dto dto){
-		String sql = "update challengeDB.Member set";
+		String sql = "update challenge_db.Member set";
 		String pwd=null,name=null,email=null;
 		Connection conn = null;
 		PreparedStatement psmt = null;
@@ -107,7 +107,7 @@ public class MemberDao implements Dao{
 	}
 	@Override
 	public Dto readTuple(Dto dto){
-		String sql = "select * from challengeDB.Member"
+		String sql = "select * from challenge_db.Member"
 				+ " where Email = ?";
 		Connection conn = null;
 		PreparedStatement psmt = null;
@@ -134,7 +134,7 @@ public class MemberDao implements Dao{
 	}
 	public List<Dto> readAllTuple(){
 		List<Dto> dtoList = new ArrayList<Dto>();
-		String sql = "select * from challengeDB.Member order by Email";
+		String sql = "select * from challenge_db.Member order by Email";
 		Connection conn = null;
 		PreparedStatement psmt = null;
 		ResultSet rs = null;
@@ -157,7 +157,7 @@ public class MemberDao implements Dao{
 		return dtoList;
 	}
 	public Dto Login(Dto dto){
-		String sql = "select * from challengeDB.Member"
+		String sql = "select * from challenge_db.Member"
 				+ " where Email = ? and Password = ?";
 		Connection conn = null;
 		PreparedStatement psmt = null;
@@ -181,7 +181,7 @@ public class MemberDao implements Dao{
 		return null;
 	}
 	public boolean signUp(Dto dto){
-		String sql = " insert into challengeDB.Member "
+		String sql = " insert into challenge_db.Member "
 				+ " (Name, Email, Password) "
 				+ " values(?, ?, ?) ";
 		Connection conn = null;
@@ -219,9 +219,9 @@ public class MemberDao implements Dao{
 	
 	public List<MemberDto> findUser(Dto dto) {
 		MemberDto memDto = (MemberDto)dto;
-		String sqlName = " select name , email from  challengeDB.Member"
+		String sqlName = " select name , email from  challenge_db.Member"
 				+ " where name=?  ";
-		String sqlEmail= " select name , email from  challengeDB.Member"
+		String sqlEmail= " select name , email from  challenge_db.Member"
 				+ " where email=?  ";
 		Connection conn = null;
 		PreparedStatement psmt = null;

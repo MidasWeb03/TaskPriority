@@ -22,7 +22,7 @@ public class PriorityDao implements Dao{
 		return (Dao)priDao;
 	}
 	public boolean addTuple(Dto dto){
-		String sql = " insert into challengeDB.Priority "
+		String sql = " insert into challenge_db.Priority "
 				+ " (email, p_left, p_prio, p_past) "
 				+ " values(?, ?, ?, ?) ";
 		Connection conn = null;
@@ -49,7 +49,7 @@ public class PriorityDao implements Dao{
 		}
 	}
 	public boolean deleteTuple(Dto dto){
-		String sql = "delete from challengeDB.Priority"
+		String sql = "delete from challenge_db.Priority"
 				+ " where Email = ?";
 		Connection conn = null;
 		PreparedStatement psmt = null;
@@ -75,7 +75,7 @@ public class PriorityDao implements Dao{
 		return false;
 	}
 	public boolean updateTuple(Dto dto, int p_left, int p_prio, int p_past, boolean p_team){
-		String sql = "update challengeDB.Priority "
+		String sql = "update challenge_db.Priority "
 					+"set"
 					+" p_left=?,"
 					+" p_prio=?,"
@@ -112,7 +112,7 @@ public class PriorityDao implements Dao{
 		}
 	}
 	public Dto readTuple(Dto dto){
-		String sql = "select * from challengeDB.Priority"
+		String sql = "select * from challenge_db.Priority"
 				+ " where Email = ?";
 		Connection conn = null;
 		PreparedStatement psmt = null;

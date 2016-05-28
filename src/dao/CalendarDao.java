@@ -27,11 +27,11 @@ public class CalendarDao implements Dao{
 	}
 	// create
 	public boolean addCalendar(Dto dto, String cname, String[] fList){
-		String sql1 = "insert into challengeDB.Calendar "
-				+ " (cname,email) "
-				+ " values(?, 'elliottful@naver.com') ";
+		String sql1 = "insert into challenge_db.Calendar "
+				+ " (cname) "
+				+ " values(?) ";
 		String sql2 = "select last_insert_id()";
-		String sql3 = "insert into challengeDB.calChecked "
+		String sql3 = "insert into challenge_db.calChecked "
 				+ " (Memail, cid)"
 				+ " values(?, ?)";
 		MemberDto memdto = (MemberDto)dto;
@@ -72,7 +72,7 @@ public class CalendarDao implements Dao{
 		return true;
 	}
 	public boolean addTuple(Dto dto){
-		String sql = " insert into challengeDB.task "
+		String sql = " insert into challenge_db.task "
 				+ " (cid, taskName, startDate,endDate,description,priority) "
 				+ " values(?, ?, ?, ?, ?, ?) ";
 		Connection conn = null;
@@ -98,8 +98,8 @@ public class CalendarDao implements Dao{
 		else		return false;
 	}
 	// delete
-	public boolean deleteChecked(String email, int cid){
-		String sql = "delete from challengeDB.Calendar where cid=? and email =?";
+	public boolean deleteChecked(int cid){
+		String sql = "delete from challenge_db.Calendar where cid=?";
 		Connection conn = null;
 		PreparedStatement psmt = null;
 		boolean result;
@@ -107,7 +107,6 @@ public class CalendarDao implements Dao{
 			conn = c2db.getConnection();
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, cid);
-			psmt.setString(2, email);
 			result = psmt.execute();
 			if(!result) return false; 
 		} catch(Exception e) {
@@ -118,7 +117,7 @@ public class CalendarDao implements Dao{
 		return true;
 	}
 	public boolean deleteCalendar(CalendarDto caldto){
-		String sql = "delete from challengeDB.Calendar where cid=?";
+		String sql = "delete from challenge_db.Calendar where cid=?";
 		Connection conn = null;
 		PreparedStatement psmt = null;
 		boolean result;
@@ -136,7 +135,7 @@ public class CalendarDao implements Dao{
 		return true;
 	}
 	public boolean deleteTuple(Dto dto){
-		String sql = "delete from challengeDB.task where tid = ?";
+		String sql = "delete from challenge_db.task where tid = ?";
 		Connection conn = null;
 		PreparedStatement psmt = null;
 		TaskDto taskdto = (TaskDto)dto;
@@ -156,7 +155,7 @@ public class CalendarDao implements Dao{
 	}
 	// update
 	public boolean updateTuple(Dto dto){
-		String sql = "update challengeDB.task set";
+		String sql = "update challenge_db.task set";
 		int tid=0, priority=0;
 		String tname=null, sdate=null, edate=null, color=null, description=null;
 		Connection conn = null;
@@ -196,7 +195,7 @@ public class CalendarDao implements Dao{
 		}
 	}
 	public Dto readTuple(Dto dto){
-		String sql = "select * from challengeDB.task"
+		String sql = "select * from challenge_db.task"
 				+ " where tid = ?";
 		Connection conn = null;
 		PreparedStatement psmt = null;
@@ -230,7 +229,7 @@ public class CalendarDao implements Dao{
 	}
 	// read
 	public List<Dto> readTuples(Dto dto){
-		String sql = "select * from challengeDB.task"
+		String sql = "select * from challenge_db.task"
 				+ " where cid = ?";
 		Connection conn = null;
 		PreparedStatement psmt = null;
@@ -273,10 +272,10 @@ public class CalendarDao implements Dao{
 		PreparedStatement psmt1 = null, psmt2 = null;
 		int cid;
 		String sql1 = "select cid, onOff "
-				+ "from challengeDB.Member as m, challengeDB.calchecked as c "
+				+ "from challenge_db.Member as m, challenge_db.calchecked as c "
 				+ "where m.email = c.MEmail and m.email = ? order by cid";
 		String sql2 = "select cname "
-				+ "from challengeDB.calendar as c "
+				+ "from challenge_db.calendar as c "
 				+ "where c.cid = ?";
 		try{
 			conn = c2db.getConnection();

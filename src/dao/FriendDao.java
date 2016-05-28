@@ -24,7 +24,7 @@ public class FriendDao implements Dao{
 		return (Dao)friDao;
 	}
 	public boolean addTuple(Dto dto){
-		String sql = " insert into challengeDB.Friend "
+		String sql = " insert into challenge_db.Friend "
 				+ " (MEmail, FEmail) "
 				+ " values(?, ?) ";
 		Connection conn = null;
@@ -49,7 +49,7 @@ public class FriendDao implements Dao{
 		}
 	}
 	public boolean deleteTuple(Dto dto){
-		String sql = "delete from challengeDB.Friend"
+		String sql = "delete from challenge_db.Friend"
 				+ " where MEmail = ? and FEmail = ?";
 		Connection conn = null;
 		PreparedStatement psmt = null;
@@ -73,7 +73,7 @@ public class FriendDao implements Dao{
 		}
 	}
 	public boolean deleteAllFriends(Dto dto){
-		String sql = "delete from challengeDB.Friend"
+		String sql = "delete from challenge_db.Friend"
 				+ " where MEmail = ?";
 		Connection conn = null;
 		PreparedStatement psmt = null;
@@ -103,7 +103,7 @@ public class FriendDao implements Dao{
 	}
 	public List<Dto> readAllFriends(Dto dto){
 		List<Dto> fList = new ArrayList<Dto>();
-		String sql = "select * from challengeDB.Friend where MEmail = ? order by FEmail";
+		String sql = "select * from challenge_db.Friend where MEmail = ? order by FEmail";
 		Connection conn = null;
 		PreparedStatement psmt = null;
 		FriendDto fridto = (FriendDto)dto; 

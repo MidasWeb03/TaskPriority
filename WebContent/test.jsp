@@ -1,3 +1,5 @@
+<%@page import="dto.FriendDto"%>
+<%@page import="dao.FriendDao"%>
 <%@page import="dto.CalendarDto"%>
 <%@page import="dao.Dao"%>
 <%@page import="dao.CalendarDao"%>
@@ -18,13 +20,26 @@
 		MemberDao dao = (MemberDao)MemberDao.getInstance();	
 		CalendarDao caldao = (CalendarDao)CalendarDao.getInstance();
 		MemberDto dto = new MemberDto("jinsub","elliottful@naver.com","1");
-	
-		List<Dto> dtoList = caldao.readAllTuple(dto);
+		
+		
+		
+		FriendDao fdao = (FriendDao)FriendDao.getInstance();
+		FriendDto fdto = new FriendDto("elliottful@naver.com","abc@abc.com");
+		
+		fdao.addTuple(fdto);
+		
+		
+		/* List<Dto> flist = fdao.readAllFriends(fdto);		
+		for(int i=0;i<flist.size();i++){
+			FriendDto d = (FriendDto)flist.get(i);
+			out.println(d.getFEmail());
+		} */ 
+		/* List<Dto> dtoList = caldao.readAllTuple(dto);
 		out.println(dtoList.size());
 		for(int i=0;i<dtoList.size();i++){
 			CalendarDto caldto = (CalendarDto)dtoList.get(i);
 			out.println(caldto.getCName()+" "+caldto.getIsActive());
-		}
+		} */
 	%>
 </body>
 </html>
