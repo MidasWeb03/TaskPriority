@@ -54,19 +54,19 @@ public class FriendDao implements Dao{
 		Connection conn = null;
 		PreparedStatement psmt = null;
 		FriendDto fridto = (FriendDto)dto; 
-		boolean result = false;
+		int result = 0;
 		try{
 			conn = c2db.getConnection();
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, fridto.getMEmail());
 			psmt.setString(2, fridto.getFEmail());
-			result = psmt.execute();
+			result = psmt.executeUpdate();
 		} catch(Exception e) {
 			log("an error from [MemberDao.deleteTuple()]", e);
 		} finally {
 			c2db.close(conn, psmt, null);
 		}
-		if(result){
+		if(result>0){
 			return true;
 		} else {
 			return false;
