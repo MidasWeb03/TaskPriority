@@ -2,10 +2,14 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import conn.conn2DB;
 import dto.Dto;
 import dto.FriendDto;
+import dto.MemberDto;
 
 public class FriendDao implements Dao{ 
 	private conn2DB c2db;
@@ -45,13 +49,80 @@ public class FriendDao implements Dao{
 		}
 	}
 	public boolean deleteTuple(Dto dto){
-		
+		String sql = "delete from challengeDB.Friend"
+				+ " where MEmail = ?, FEmail = ?";
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		FriendDto fridto = (FriendDto)dto; 
+		boolean result = false;
+		try{
+			conn = c2db.getConnection();
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, fridto.getMEmail());
+			psmt.setString(2, fridto.getFEmail());
+			result = psmt.execute();
+		} catch(Exception e) {
+			log("an error from [MemberDao.deleteTuple()]", e);
+		} finally {
+			c2db.close(conn, psmt, null);
+		}
+		if(result){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public boolean deleteAllFriends(Dto dto){
+		String sql = "delete from challengeDB.Friend"
+				+ " where MEmail = ?";
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		FriendDto fridto = (FriendDto)dto; 
+		boolean result = false;
+		try{
+			conn = c2db.getConnection();
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, fridto.getMEmail());
+			result = psmt.execute();
+		} catch(Exception e) {
+			log("an error from [MemberDao.deleteTuple()]", e);
+		} finally {
+			c2db.close(conn, psmt, null);
+		}
+		if(result){
+			return true;
+		} else {
+			return false;
+		}
 	}
 	public boolean updateTuple(Dto dto){
-		
+		return false; // trivial method
 	}
 	public Dto readTuple(Dto dto){
-		
+		return null;	// trivial method
+	}
+	public List<Dto> readAllFriends(Dto dto){
+		List<Dto> fList = new ArrayList<Dto>();
+		String sql = "select * from challengeDB.Friend order by FEmail";
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		String memail, femail;
+		try{
+			conn = c2db.getConnection();
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			while (rs.next()){
+		        memail = rs.getString("MEmail");
+		        femail = rs.getString("FEmail");
+		        fList.add((Dto)(new FriendDto(memail,femail)));
+		    }
+		} catch(Exception e) {
+			log("an error from [MemberDao.deleteTuple()]", e);
+		} finally {
+			c2db.close(conn, psmt, null);
+		}
+		return fList;
 	}
 	
 	public void log(String str){
