@@ -76,7 +76,7 @@ public class MemberDao implements Dao{
 	@Override
 	public boolean updateTuple(Dto dto){
 		String sql = "update challengeDB.Member set";
-		String pwd=null,name=null,email=null,auth=null;
+		String pwd=null,name=null,email=null;
 		Connection conn = null;
 		PreparedStatement psmt = null;
 		MemberDto memdto = (MemberDto)dto;
