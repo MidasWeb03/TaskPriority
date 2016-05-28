@@ -22,7 +22,7 @@ list-style:none;
 
 </head>
 <body>
-
+<%request.setCharacterEncoding("UTF-8");%>
 
 <jsp:include page="layout_top.jsp"></jsp:include>
 <div class="content">

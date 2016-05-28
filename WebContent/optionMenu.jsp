@@ -18,6 +18,7 @@
 </style>
 </head>
 <body>
+<%request.setCharacterEncoding("UTF-8");%>
 <jsp:include page="layout_top.jsp"></jsp:include>
 <div class="content">
 	<jsp:include page="layout_option_leftaside.jsp"></jsp:include>

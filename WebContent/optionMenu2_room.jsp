@@ -23,8 +23,10 @@
 	text-align:left;
 }
 </style>
+
 </head>
 <body>
+<%request.setCharacterEncoding("UTF-8");%>
 <%
 	MemberDto mdto = (MemberDto)session.getAttribute("login");
 %>
@@ -35,26 +37,46 @@
 		<h3>개인 정보 변경</h3>
 		<form action="optionMenu2_roomAf.jsp" method="post">
 		<table>
+		<col width="200"><col width="450">
 			<tr>
 				<td>이름</td>
 				<td><input type="text" name="name" value="<%=mdto.getName() %>"/></td>
 			</tr>
 			<tr>
 				<td>이메일</td>
-				<td><input type="text" name="email" disabled="disabled" value="<%=mdto.getEmail()%>"/></td>
+				<td><input type="text" name="email" value="<%=mdto.getEmail()%>" disabled="disabled"/></td>
 			</tr>
 			<tr>
 				<td>비밀번호 변경</td>
-				<td><input type="text" name="password"/></td>
+				<td><input type="password" name="password" id="pw"/></td>
 			</tr>
 			<tr>
 				<td>비밀번호 변경 확인</td>
-				<td><input type="text" name="passwordcheck"/></td>
+				<td><input type="password" name="passwordcheck" id="pwcheck"/><span id="warning"></span></td>
 			</tr>
 		</table>
-		<input type="submit" value="수정하기">
+		<input type="submit" id="_submit" value="수정하기">
 		</form>
 	</div>
 </div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.min.js"></script>
+<script>
+$(document).ready(function () {
+    $("#pwcheck").keyup(function(){
+        if($('#pw').val() != $('#pwcheck').val()){
+        	$('#warning').text('  비밀번호가 다릅니다');
+        	$('#warning').css('color','red');
+        	$('#_submit').attr('disabled', 'disabled');
+        } else {
+        	$('#warning').text('  비밀번호가 같습니다');
+        	$('#warning').css('color','green');
+        	$('#_submit').removeAttr('disabled');
+        }
+    });
+    
+ });
+
+</script>
 </body>
 </html>

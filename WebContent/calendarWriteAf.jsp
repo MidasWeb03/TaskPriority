@@ -1,3 +1,4 @@
+<%@page import="dao.CalendarDao"%>
 <%@page import="javax.xml.bind.ParseConversionEvent"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -31,7 +32,9 @@ String endDate = ayear + "-" + amonth + "-" + aday + " " + ahour + ":" + amin;
 
 TaskDto tdto = new TaskDto(0, 0, Integer.parseInt(taskPriority), taskName, startDate, endDate, null, taskColor, taskMemo);
 
+CalendarDao cdao = (CalendarDao)CalendarDao.getInstance();
 
+boolean result = cdao.addTuple(tdto);
 
 
 %>

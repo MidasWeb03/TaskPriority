@@ -22,6 +22,7 @@
 </style>
 </head>
 <body>
+<%request.setCharacterEncoding("UTF-8");%>
 <%
 MemberDto mdto = (MemberDto)session.getAttribute("login");
 %>
@@ -30,7 +31,7 @@ MemberDto mdto = (MemberDto)session.getAttribute("login");
 	<jsp:include page="layout_option_leftaside.jsp"></jsp:include>
 	<div class="rightAside">
 		<h3>개인 정보 변경</h3>
-		<form action="optionMenu2_room.jsp" method="post">
+		<form action="optionMenu2Af.jsp" method="post">
 		<table>
 			<tr>
 				<td>이메일</td>
@@ -38,7 +39,7 @@ MemberDto mdto = (MemberDto)session.getAttribute("login");
 			</tr>
 			<tr>
 				<td>비밀번호</td>
-				<td><input type="text" name="password" style="width:100%"></td>
+				<td><input type="password" name="password" style="width:100%"></td>
 			</tr>
 		</table>
 		<input type="submit" value="변경하러 가기">
