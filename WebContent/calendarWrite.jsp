@@ -17,6 +17,7 @@ body{
 </head>
 <body>
 
+<%request.setCharacterEncoding("UTF-8"); %>
 <%
 String year = request.getParameter("year");
 String month = request.getParameter("month");
@@ -56,61 +57,61 @@ int tmin = cal.get(Calendar.MINUTE);
 		<tr>
 			<th>일정</th>
 			<td>
-				<select>
+				<select name="byear">
 					<%for(int i=tyear-5;i<tyear+5; i++){ %>
 						<option <%=year.equals(i+"") ? "selected='selected'":"" %> 
 							value="<%=i %>"><%=i %></option>
 					<%} %>
 				</select>년
-				<select>
+				<select name="bmonth">
 					<%for(int i=1;i<13; i++){ %>
 						<option <%=month.equals(i+"") ? "selected='selected'":"" %> 
 							value="<%=i %>"><%=i %></option>
 					<%} %>
 				</select>월
-				<select>
+				<select name="bday">
 					<%for(int i=1;i<=cal.getActualMaximum(Calendar.DAY_OF_MONTH); i++){ %>
 						<option <%=day.equals(i+"") ? "selected='selected'":"" %> 
 							value="<%=i %>"><%=i %></option>x
 					<%} %>
 				</select>일
-				<select>
+				<select name="bhour">
 					<%for(int i = 0; i<24; i++){%>
 						<option <%=(thour+"").equals(i+"") ? "selected='selected'":"" %> 
 								value="<%=i %>"><%=i %></option>
 					<%}%> 
 				</select>시
-				<select>
+				<select name="bmin">
 					<%for(int i = 0; i<60; i++){%>
 						<option <%=(tmin+"").equals(i+"") ? "selected='selected'":"" %> 
 								value="<%=i %>"><%=i %></option>
 					<%}%> 
 				</select>분 - 
-				<select>
+				<select name="ayear">
 					<%for(int i=tyear-5;i<tyear+5; i++){ %>
 						<option <%=year.equals(i+"") ? "selected='selected'":"" %> 
 							value="<%=i %>"><%=i %></option>
 					<%} %>
 				</select>년
-				<select>
+				<select name="amonth">
 					<%for(int i=1;i<13; i++){ %>
 						<option <%=month.equals(i+"") ? "selected='selected'":"" %> 
 							value="<%=i %>"><%=i %></option>
 					<%} %>
 				</select>월
-				<select>
+				<select name="aday">
 					<%for(int i=1;i<=cal.getActualMaximum(Calendar.DAY_OF_MONTH); i++){ %>
 						<option <%=day.equals(i+"") ? "selected='selected'":"" %> 
 							value="<%=i %>"><%=i %></option>
 					<%} %>
 				</select>일
-				<select>
+				<select name="ahour">
 					<%for(int i = 0; i<24; i++){%>
 						<option <%=(thour+"").equals(i+"") ? "selected='selected'":"" %> 
 								value="<%=i %>"><%=i %></option>
 					<%}%> 
 				</select>시
-				<select>
+				<select name="amin">
 					<%for(int i = 0; i<60; i++){%>
 						<option <%=(tmin+"").equals(i+"") ? "selected='selected'":"" %> 
 								value="<%=i %>"><%=i %></option>
@@ -121,12 +122,12 @@ int tmin = cal.get(Calendar.MINUTE);
 		</tr>
 		<tr>
 			<th>메모</th>
-			<td><textarea rows="10" cols="100%" name="task_memo"></textarea></td>
+			<td><textarea rows="10" cols="100%" name="taskMemo"></textarea></td>
 		</tr>
 		<tr>
 			<th>중요도</th>
 			<td>
-				<select id="task_priority" style="width:100%">
+				<select name="taskPriority" style="width:100%">
 					<option value="1">1</option>
 					<option value="2">2</option>
 					<option value="3">3</option>
@@ -138,7 +139,7 @@ int tmin = cal.get(Calendar.MINUTE);
 		<tr>
 			<th>색깔</th>
 			<td>
-			<select id="task_color" style="width:100%">
+			<select name="taskColor" style="width:100%">
 				<option value="red">빨강</option>
 				<option value="blue">파란</option>
 				<option value="green">녹색</option>

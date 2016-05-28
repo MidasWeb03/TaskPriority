@@ -151,8 +151,8 @@ public class CalendarDao implements Dao{
 		try{
 			conn = c2db.getConnection();
 			psmt = conn.prepareStatement(sql);
-			if( != null) psmt.setString(idx++, );
-			psmt.setString(idx, email);
+			//if( != null) psmt.setString(idx++, );
+			//psmt.setString(idx, email);
 			result = psmt.execute();
 		} catch(Exception e) {
 			log("an error from [CalendarDao.updateTuple()]", e);
