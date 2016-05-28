@@ -7,7 +7,7 @@
 <title>Login Page</title>
 </head>
 <body>
-	<div>
+	<div> 
 		<form action="loginPage.jsp" method="post">
 			<input type="text" name="email" value="" placeholder="Email" /><br />
 			<input type="password" name="password" value="" placeholder="Password" /><br />

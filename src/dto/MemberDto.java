@@ -35,5 +35,10 @@ public class MemberDto implements Dto {
 	public void setPwd(String pwd){
 		this.pwd = pwd;
 	}
+
+	@Override
+	public String toString() {
+		return "MemberDto [name=" + name + ", email=" + email + ", pwd=" + pwd + "]";
+	}
 	
 }
