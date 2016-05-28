@@ -49,13 +49,17 @@
 		<input type="hidden"  id ="sessionEmail" value="<%= sessionDto.getEmail()%>" />
 		<script type="text/javascript"
 		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.js"></script>
+		
 		<script>
 			$(".addFriendBtn").click(function(){
 				console.log($(this).val());
 				console.log("addFriend.jsp?MEmail="+  $("#sessionEmail").val()+"&FEmail="+$(this).val());
 				location.href="addFriend.jsp?MEmail="+  $("#sessionEmail").val()+"&FEmail="+$(this).val();
+				t();
+				
 			});
 		</script>
+		
 		
 </body>
 </html>

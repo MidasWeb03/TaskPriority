@@ -17,9 +17,16 @@
 <%  
 		request.setCharacterEncoding("UTF-8"); 
 		MemberDto sessionDto = (MemberDto)session.getAttribute("login");
-		
 		String MEmail = request.getParameter("MEmail");
 		String FEmail= request.getParameter("FEmail");
+		if(MEmail.equals(FEmail)){
+			%>
+			<script>
+				alert("친구 추가 실패  < 자신을 친구 추가 할수 없습니다. >");			
+			</script>
+			<%
+			return;
+		}
 		MemberDao dao = (MemberDao)MemberDao.getInstance();
 		FriendDao friendDao = (FriendDao)FriendDao.getInstance();
 		boolean result = friendDao.addTuple((Dto)(new FriendDto(MEmail,FEmail)));

@@ -28,17 +28,18 @@
 	%>
 </head>
 <body>
-<jsp:include page="layout_top.jsp"></jsp:include>
+	<jsp:include page="layout_top.jsp"></jsp:include>
 	<div>
 		<h2>Friend List</h2>
-		<input id="sessionEmail" type="hidden" value="<%= dto.getEmail()%>"/>
-		<ul>
+		<button id="refreshBtn">새로고침</button>
+		<input id="sessionEmail" type="hidden" value="<%= dto.getEmail()%>" />
+		<ul id="memberList">
 			<%
 				for (int i = 0; i < friendList.size(); i++) {
 					MemberDto memberDto =  (MemberDto)(friendList.get(i));
 			%>
-			<li><%=memberDto.getName() + "  " + memberDto.getEmail()%>
-				<button value ="<%=memberDto.getEmail() %>" class="friendRemove">remove</button></li>
+			<li class="member"><%=memberDto.getName() + "  " + memberDto.getEmail()%>
+				<button value="<%=memberDto.getEmail() %>" class="friendRemove">remove</button></li>
 			<%
 				}
 			%>
@@ -47,20 +48,21 @@
 
 	<div>
 		<h2>Search Friend</h2>
-		<div >
+		<div>
 			<input type="radio" class="checkBtn" id="checkName" checked="true"
 				value="Name"><label>Name</label> <input type="radio"
 				class="checkBtn" id="checkEmail" value="Email"><label>Email</label><br />
-			<input type="text" id="inputData" name="inputData" placeholder="Input"> <input
-				type="button" id="searchBtn" value="검색" />
-		</form>
-	</div>
-	
-	<div>
-		<iframe id="searchFrame" frameborder="0" height="450" leftmargin="0" marginheight="3"
-			marginwidth="3" scrolling="no" src="friendSearch.jsp"
-			topmargin="0" width="600"> </iframe>
-	</div>
+			<input type="text" id="inputData" name="inputData"
+				placeholder="Input"> <input type="button" id="searchBtn"
+				value="검색" />
+			</form>
+		</div>
+
+		<div>
+			<iframe id="searchFrame" name="testname" frameborder="0" height="450"
+				leftmargin="0" marginheight="3" marginwidth="3" scrolling="no"
+				src="friendSearch.jsp" topmargin="0" width="600"> </iframe>
+		</div>
 
 
 
@@ -70,10 +72,9 @@
 
 
 
-	<script type="text/javascript"
-		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.js"></script>
-	<script> 
-		
+		<script type="text/javascript"
+			src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.js"></script>
+		<script> 
 		$("#checkName").click(function(){
 			$("#checkEmail").prop("checked",false);
 		});
@@ -96,8 +97,9 @@
 			}
 		});
 		
-		$("#searchFrame").change(function(){
-			alert("aaa");
+		$("#refreshBtn").click(function(){
+			location.href="friendMenu.jsp";
+				
 		});
 	</script>
 </body>
