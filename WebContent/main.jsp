@@ -50,7 +50,7 @@
  }
  public String makeTable(int year, int month, int day, List<Dto> lcdtos){
 	 String s = "";
-	 String dates = (year + "") + two(month + "") + two(day + "");
+	 String dates = (year + "-") + two(month + "") + "-" + two(day + "");
 	 
 	 
 	 s = "<table>";
@@ -58,10 +58,11 @@
 	 
 	 for(Dto lcd:lcdtos){
 		 TaskDto tdo = (TaskDto)lcd;
+		 System.out.println("subString : " + tdo.getStartDate().substring(0, 10) + " / " + dates);
 		 if(tdo.getStartDate().substring(0, 10).equals(dates)){
 			 s += "<tr bgcolor='pink'>";
 			 s += "<td>";
-			 s += "<a href='calendardetail.jsp?seq=" + tdo.getTid() + "'>";
+			 s += "<a href='calendarDetail.jsp?seq=" + tdo.getTid() + "'>";
 			 s += "<font style='font-size:8; color:red'>";
 			 s += dot3(tdo.getTaskName());
 			 s += "</font>";
@@ -133,7 +134,9 @@ cal.set(year, month-1, 1);		// 첫 날로 세팅
 
 // List<MyCalendar> cdtos = dao.getMyCalendarList(user.getId(), year+two(month+""));
 CalendarDao cdao = (CalendarDao)CalendarDao.getInstance();
-//List<Dto> ldto = cdao.
+List<Dto> lcdto = cdao.readAllTuple(mdto);
+session.setAttribute("initcal",cdao.getCurCid(lcdto));
+List<Dto> ldto = cdao.subTasks(cdao.getCurCid(lcdto), year+"-"+two(month+""));
 
 int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 
@@ -173,7 +176,7 @@ String nn = String.format("<a href='%s?year=%d&month=%d'><img src='image/last.gi
 		 	int lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 		 	for(int i=1; i<=lastDay; i++){%>
 		 		<td><%=callist(year, month, i)%>&nbsp;<%=showPen(year, month, i) %>
-<%-- 		 		<%=makeTable(year, month, i, null) %> --%>
+		 		<%=makeTable(year, month, i, ldto) %>
 		 		</td>
 		 		<%
 		 		if((i + dayOfWeek - 1)%7 == 0){%>
@@ -190,8 +193,7 @@ String nn = String.format("<a href='%s?year=%d&month=%d'><img src='image/last.gi
 	<div class="clist">
 	달력목록
 	<%
-	List<Dto> lcdto = cdao.readAllTuple(mdto);
-	session.setAttribute("initcal",cdao.getCurCid(lcdto));
+	
 	%>
 	<ul>
 	<%for(int i=0; i<lcdto.size(); i++){

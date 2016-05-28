@@ -1,3 +1,5 @@
+<%@page import="dto.TaskDto"%>
+<%@page import="dto.Dto"%>
 <%@page import="dao.CalendarDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -38,10 +40,14 @@ String year = request.getParameter("year");
 String month = request.getParameter("month");
 String day = request.getParameter("day");
 
-String dates = year + two(month) + two(day);
+String dates = year + "-" + two(month) + "-" +  two(day);
 
 CalendarDao cdao = (CalendarDao)CalendarDao.getInstance();
 //List<MyCalendar> cdtos = cdao.getDayList(user.getId(), dates);
+List<Dto> ldto = cdao.subTasksForADay((int)session.getAttribute("initcal"), dates);
+for(int i=0; i<ldto.size(); i++){
+	System.out.println(ldto.get(i).toString());
+}
 %>
 
 <jsp:include page="layout_top.jsp"></jsp:include>
@@ -61,22 +67,23 @@ CalendarDao cdao = (CalendarDao)CalendarDao.getInstance();
 	</tr>
 	
 	<%
-	//for(int i=0; i<cdtos.size(); i++){
-		for(int i=0; i<0; i++){
-		MyCalendar cald = new MyCalendar(); //cdtos.get(i);%>
+	for(int i=0; i<ldto.size(); i++){
+		TaskDto tdto = (TaskDto)ldto.get(i);
+		System.out.println(tdto.getStartDate());%>
+		
 		<tr>
 			<td><%=i+1 %></td>
-			<td><%= toDates(cald.getStartDate()) %></td>
-			<td><a href='calendarDetail.jsp?seq=<%=cald.getTid()%>'><%=cald.getTaskName() %></a></td>
+			<td><%= tdto.getStartDate() %></td>
+			<td><a href='calendarDetail.jsp?seq=<%=tdto.getTid()%>'><%=tdto.getTaskName() %></a></td>
 			<td>
 				<form action="calendarUpdate.jsp" method="post">
-					<input type="hidden" name="seq" value="<%=cald.getTid()%>"/>
+					<input type="hidden" name="seq" value="<%=tdto.getTid()%>"/>
 					<input type="submit" value="일정수정"/>
 				</form>
 			</td>
 			<td>
 				<form action="calendardel.jsp" method="post">
-					<input type="hidden" name="seq" value="<%=cald.getTid()%>"/>
+					<input type="hidden" name="seq" value="<%=tdto.getTid()%>"/>
 					<input type="submit" value="일정삭제"/>
 				</form>
 			</td>
