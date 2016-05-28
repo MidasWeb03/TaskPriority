@@ -203,7 +203,11 @@ public class MemberDao implements Dao{
 			c2db.close(conn, psmt, null);
 		}
 		if(result == 0) return false;
-		else			return true;
+		else{
+			CalendarDao caldao = (CalendarDao)CalendarDao.getInstance();
+			caldao.addCalendar(memdto, "index");
+			return true;
+		}
 	}
 	public void log(String str){
 		System.out.println(str);
