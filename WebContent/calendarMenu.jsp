@@ -1,4 +1,9 @@
- <%@page import="dto.MemberDto"%>
+<%@page import="dto.Dto"%>
+<%@page import="dto.CalendarDto"%>
+<%@page import="dto.MemberDto"%>
+<%@page import="dao.Dao"%>
+<%@ page import="conn.conn2DB"%>
+<%@ page import="dao.CalendarDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList"%>
@@ -9,19 +14,14 @@
 <title>Calendar Page</title>
 
 	<% 
+		request.setCharacterEncoding("UTF-8");
+		MemberDto dto = (MemberDto)session.getAttribute("login");
+		CalendarDao dao = (CalendarDao)CalendarDao.getInstance();
+		
+		
 		/* 이 페이지 불러올 데이터 캘린더 리스트 & 친구 리스트*/
-		ArrayList<String> calendarList = new ArrayList<String>();
-
-				calendarList.add("aaa");
-				calendarList.add("bbb");
-				calendarList.add("ccc");
-				calendarList.add("aaa");
-				calendarList.add("bbb");
-				calendarList.add("ccc");
-				calendarList.add("aaa");
-				calendarList.add("bbb");
-				calendarList.add("ccc");
-				
+		ArrayList<Dto> calendarList = (ArrayList<Dto>)dao.readAllTuple(dto);
+		
 		ArrayList<MemberDto> friendList= new ArrayList<MemberDto>();
 				
 				friendList.add(new MemberDto("test" ,"asd@naver.com",""));
@@ -39,9 +39,10 @@
 		<ul>
 			<%
 				for (int i = 0; i < calendarList.size(); i++) {
+					CalendarDto calendarDto = (CalendarDto)(calendarList.get(i));
 			%>
-			<li><%=calendarList.get(i)%>
-				<button id="calendar">remove</button></li>
+			<li><%=calendarDto.getCName()%>
+				<button value="<%=calendarDto.getCid() %>" class="removeBtn">remove</button></li>
 			<%
 				}
 			%>
@@ -70,10 +71,7 @@
 	
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.js"></script>
 	<script>
-		<%
-			MemberDto dto = (MemberDto)session.getAttribute("login");
-		%>
-		$("#addFriendList").val("<%=dto.getEmail()%>");
+<%-- 		$("#addFriendList").val("<%=dto.getEmail()%>"); --%>
 		$("#friendList").change(function( data){
 			console.log($("#friendList option:selected").val());
 			
@@ -83,6 +81,10 @@
 				$("#addFriendList").val($("#addFriendList").val()+","+$("#friendList option:selected").val());
 				console.log($("#friendList option:selected").remove());
 			}
+		});
+		
+		$("#removeBtn").click(function(){
+			location.href="deleteCalendar.jsp?cid="+$(this).val();
 		});
 	</script>
 </body>
