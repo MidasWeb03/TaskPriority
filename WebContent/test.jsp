@@ -1,3 +1,6 @@
+<%@page import="dto.CalendarDto"%>
+<%@page import="dao.Dao"%>
+<%@page import="dao.CalendarDao"%>
 <%@page import="dto.Dto"%>
 <%@page import="java.util.List"%>
 <%@page import="dto.MemberDto"%>
@@ -13,10 +16,14 @@
 <body>
 	<%
 		MemberDao dao = (MemberDao)MemberDao.getInstance();	
-		List<Dto> dtoList = dao.readAllTuple();
-		for(int i=0; i<dtoList.size();i++){
-			MemberDto dto = (MemberDto)dtoList.get(i);
-			out.println(dto.getEmail()+" "+dto.getName());
+		CalendarDao caldao = (CalendarDao)CalendarDao.getInstance();
+		MemberDto dto = new MemberDto("jinsub","elliottful@naver.com","1");
+	
+		List<Dto> dtoList = caldao.readAllTuple(dto);
+		out.println(dtoList.size());
+		for(int i=0;i<dtoList.size();i++){
+			CalendarDto caldto = (CalendarDto)dtoList.get(i);
+			out.println(caldto.getCName()+" "+caldto.getIsActive());
 		}
 	%>
 </body>
