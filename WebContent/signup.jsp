@@ -15,6 +15,7 @@
 <body> 
 
 <%
+request.setCharacterEncoding("UTF-8");
 MemberDao dao = (MemberDao)MemberDao.getInstance();
 %>
 <div>

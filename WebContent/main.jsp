@@ -1,6 +1,12 @@
+<%@page import="dao.CalendarDao"%>
 <%@page import="md.challenge.MyCalendar"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.Calendar"%>
+<%@page import="dao.CalendarDao" %>
+<%@page import="dto.CalendarDto" %>
+<%@page import="dto.Dto" %>
+<%@page import="dto.MemberDto" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
  <%!
@@ -74,13 +80,17 @@
 <style>
 .content{
 	display:inline-flex;
+	text-align:center;
 }
 
-.content #clist{
+.content .clist{
 	border:1px solid red;
 }
-.content #cpriority{
+.content .cpriority{
 	border:1px solid blue;
+}
+.content .clist li{
+	list-style:none;
 }
 </style>
 </head>
@@ -93,7 +103,7 @@
 String days[] = {"일","월","화","수","목","금","토"};
 
 // MemberDAO dao = MemberDAO.getInstance();
-// Member user = (Member)session.getAttribute("login");
+MemberDto mdto = (MemberDto)session.getAttribute("login");
 
 String syear = request.getParameter("year");
 String smonth = request.getParameter("month");
@@ -172,10 +182,20 @@ String nn = String.format("<a href='%s?year=%d&month=%d'><img src='image/last.gi
 		 	</tr>
 		</table>
 	</div>
-	<div id="clist">
+	<div class="clist">
 	달력목록
+	<%
+	CalendarDao cdao = (CalendarDao)CalendarDao.getInstance();
+	List<Dto> lcdto = cdao.readAllTuple(mdto);%>
+	<ul style="">
+	<%for(int i=0; i<lcdto.size(); i++){
+		CalendarDto cdto = (CalendarDto)lcdto.get(i);
+		%>
+		<li><%=cdto.getCName() %></li>		
+	<% }%>
+	</ul>
 	</div>
-	<div id="cpriority">
+	<div class="cpriority">
 	우선순위
 	</div>
 </div>
