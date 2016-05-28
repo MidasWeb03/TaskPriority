@@ -73,8 +73,8 @@ public class CalendarDao implements Dao{
 	}
 	public boolean addTuple(Dto dto){
 		String sql = " insert into challenge_db.task "
-				+ " (cid, taskName, startDate,endDate,description,priority) "
-				+ " values(?, ?, ?, ?, ?, ?) ";
+				+ " (cid, taskName, startDate,endDate,description,priority, color) "
+				+ " values(?, ?, ?, ?, ?, ?, ?) ";
 		Connection conn = null;
 		PreparedStatement psmt = null;
 		TaskDto taskdto = (TaskDto)dto; 
@@ -88,6 +88,7 @@ public class CalendarDao implements Dao{
 			psmt.setString(4, taskdto.getEndDate());
 			psmt.setString(5, taskdto.getDescription());
 			psmt.setInt(6, taskdto.getPriority());
+			psmt.setString(7, taskdto.getColor());
 			result = psmt.execute();
 		} catch (Exception e){
 			log("an error from [CalendarDao.addTuple()]", e);
