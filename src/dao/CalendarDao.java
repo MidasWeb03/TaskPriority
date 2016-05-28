@@ -145,14 +145,19 @@ public class CalendarDao implements Dao{
 		if((edate=taskdto.getEndDate()) != null) sql += " enddate=? ";
 		if((color=taskdto.getColor()) != null) sql += "color=? ";
 		if((description=taskdto.getDescription()) != null) sql += " description=? ";
-		sql += " where Email=?";
+		sql += " where tid=?";
 		boolean result = false;
 		int idx=1;
 		try{
 			conn = c2db.getConnection();
 			psmt = conn.prepareStatement(sql);
-			//if( != null) psmt.setString(idx++, );
-			//psmt.setString(idx, email);
+			if(priority != 0) psmt.setInt(idx++, priority);
+			if(tname != null) psmt.setString(idx++, tname);
+			if(sdate != null) psmt.setString(idx++, sdate);
+			if(edate != null) psmt.setString(idx++, edate);
+			if(color != null) psmt.setString(idx++, color);
+			if(description != null) psmt.setString(idx++, description);
+			psmt.setInt(idx, tid);
 			result = psmt.execute();
 		} catch(Exception e) {
 			log("an error from [CalendarDao.updateTuple()]", e);
@@ -167,6 +172,36 @@ public class CalendarDao implements Dao{
 	}
 	// read
 	public Dto readTuple(Dto dto){
+		String sql = "select * from challengeDB.task"
+				+ " where tid = ?";
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		int tid=0, cid=0,priority=0;
+		String tname=null, sdate=null, edate=null, wdate=null,color=null, description=null;
+		TaskDto memdto = (TaskDto)dto;
+		ResultSet rs;
+		try{
+			conn = c2db.getConnection();
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, memdto.getTid());
+			rs = psmt.executeQuery();
+			if(rs.next()){
+				tid = rs.getInt("tid");
+				cid = rs.getInt("cid");
+				priority = rs.getInt("priority");
+				tname = rs.getString("taskname");
+				sdate = rs.getString("startdate");
+				edate = rs.getString("enddate");
+				wdate = rs.getString("writedate");
+				color = rs.getString("color");
+				description = rs.getString("description");
+				return (Dto)(new TaskDto(tid, cid, priority, tname,sdate, edate, wdate, color, description));
+			}
+		} catch(Exception e) {
+			log("an error from [MemberDao.deleteTuple()]", e);
+		} finally {
+			c2db.close(conn, psmt, null);
+		}
 		return null;
 	}
 		// please use dto as MemberDto param
@@ -191,8 +226,6 @@ public class CalendarDao implements Dao{
 			while(rs1.next()){
 				psmt2 = conn.prepareStatement(sql2);
 				psmt2.setInt(1, rs1.getInt("cid"));
-				System.out.println(rs1.getInt("cid")+"===========");
-				System.out.println("1");
 				rs2 = psmt2.executeQuery();
 				System.out.println("2");
 				if(rs2.next()){
