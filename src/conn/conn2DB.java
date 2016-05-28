@@ -21,7 +21,7 @@ public class conn2DB {
 		Connection conn = null;
 		String url = "jdbc:mysql://192.168.0.25:3306";
 		String user = "root";
-		String password = "";
+		String password = "root";
 		
 		try {
 			conn = DriverManager.getConnection(url, user, password);
