@@ -193,7 +193,7 @@ String nn = String.format("<a href='%s?year=%d&month=%d'><img src='image/last.gi
 	List<Dto> lcdto = cdao.readAllTuple(mdto);
 	session.setAttribute("initcal",cdao.getCurCid(lcdto));
 	%>
-	<ul style="">
+	<ul>
 	<%for(int i=0; i<lcdto.size(); i++){
 		CalendarDto cdto = (CalendarDto)lcdto.get(i);
 		%>

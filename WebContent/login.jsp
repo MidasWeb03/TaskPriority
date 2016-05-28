@@ -5,15 +5,34 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Login Page</title>
+<style>
+body{
+	background-image:url("image/background_tp.png");
+}
+.loginWindow{
+	margin:auto;
+}
+.header{
+	text-align:center;
+}
+</style>
 </head>
 <body>
-	<div> 
-		<form action="loginPage.jsp" method="post">
-			<input type="text" name="email" value="" placeholder="Email" /><br />
-			<input type="password" name="password" value="" placeholder="Password" /><br />
-			<input type="submit" value="LOGIN" />
-			<a href="signup.jsp">SIGN UP</a>
-		</form>
+	<div class="header">
+		<h1>무엇이 중헌디?</h1>
 	</div>
+	<form action="loginPage.jsp" method="post">
+		<table class="loginWindow">
+		<tr>
+			<td><input type="text" name="email" value="" placeholder="Email" /></td>
+		</tr>
+		<tr>
+			<td><input type="password" name="password" value="" placeholder="Password" /></td>
+		</tr>
+		<tr>
+			<td><input type="submit" value="LOGIN" /><a href="signup.jsp">SIGN UP</a></td>
+		</tr>
+		</table>
+	</form>
 </body>
 </html>
