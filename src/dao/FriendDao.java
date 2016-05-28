@@ -117,7 +117,7 @@ public class FriendDao implements Dao{
 			while (rs.next()){
 		        memail = rs.getString("MEmail");
 		        femail = rs.getString("FEmail");
-		        fList.add((Dto)(new FriendDto(memail,femail)));
+		        fList.add((Dto)(MemberDao.getInstance().readTuple(new MemberDto("",femail,""))));
 		    }
 		} catch(Exception e) {
 			log("an error from [MemberDao.deleteTuple()]", e);
