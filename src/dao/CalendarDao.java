@@ -410,6 +410,49 @@ public class CalendarDao implements Dao{
 		ret[2] = Integer.parseInt(ss[2]);
 		return ret;
 	}
+	public List<Dto> arrangeTasks(Dto dto){
+		MemberDto memdto = (MemberDto)dto;
+		List<Dto> taskList = new ArrayList<Dto>();
+		String sql2="select * from task where cid in " 
+				+ "(select ca.cid "
+				+ "from member as m, calChecked as cc, calendar ca "
+				+ "where m.email = cc.memail and cc.cid = ca.cid and m.email=?) "
+				+ "oder by priority desc startdate asc writedate asc";
+		Connection conn = null;
+		PreparedStatement psmt1 = null, psmt2 = null;
+		int tid=0, cid=0,priority=0;
+		String tname=null, sdate=null, edate=null, wdate=null,color=null, description=null;
+		ResultSet rs;
+		try{
+			conn = c2db.getConnection();
+			psmt2 = conn.prepareStatement(sql2);
+			psmt2.setString(1, memdto.getEmail());
+			rs = psmt2.executeQuery();
+			java.util.Date date= new java.util.Date();
+			Timestamp ts = new Timestamp(date.getTime());
+			while(rs.next()){
+				sdate = rs.getString("startdate");
+				if(sdate.compareTo(ts.toString())>0){
+					edate = rs.getString("enddate");
+					tid = rs.getInt("tid");
+					cid = rs.getInt("cid");
+					priority = rs.getInt("priority");
+					tname = rs.getString("taskname");
+					wdate = rs.getString("writedate");
+					color = rs.getString("color");
+					description = rs.getString("description");
+					TaskDto taskdto =new TaskDto(tid, cid, priority, tname,sdate, edate, wdate, color, description);
+					taskList.add((Dto)taskdto);
+				}
+			}
+		
+		} catch(Exception e) {
+			log("an error from [MemberDao.deleteTuple()]", e);
+		} finally {
+			c2db.close(conn, psmt2, null);
+		}
+		return taskList;
+	}
 	// log
 	public void log(String str){
 		System.out.println(str);

@@ -82,7 +82,11 @@
 		});
 		
 		$(".removeBtn").click(function(){
-			location.href="deleteCalendar.jsp?cid="+$(this).val();
+			if($(this).index() == 0){
+				alert("기본 캘린더는 삭제할 수 없습니다.");
+			}else{
+				location.href="deleteCalendar.jsp?cid="+$(this).val();
+			}
 		});
 	</script>
 </body>
