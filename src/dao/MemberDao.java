@@ -156,7 +156,7 @@ public class MemberDao implements Dao{
 		}
 		return dtoList;
 	}
-	public boolean Login(Dto dto){
+	public Dto Login(Dto dto){
 		String sql = "select * from challengeDB.Member"
 				+ " where Email = ? and Password = ?";
 		Connection conn = null;
@@ -169,13 +169,16 @@ public class MemberDao implements Dao{
 			psmt.setString(1, memdto.getEmail());
 			psmt.setString(2, memdto.getPwd());
 			rs = psmt.executeQuery();
-			if(rs.next()) 	return true;
+			if(rs.next()){
+				memdto.setName(rs.getString("name"));
+				return memdto;
+			} 	
 		} catch(Exception e) {
 			log("an error from [MemberDao.deleteTuple()]", e);
 		} finally {
 			c2db.close(conn, psmt, null);
 		}
-		return false;
+		return null;
 	}
 	public boolean signUp(Dto dto){
 		String sql = " insert into challengeDB.Member "

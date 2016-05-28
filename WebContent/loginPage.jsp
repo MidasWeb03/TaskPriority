@@ -23,9 +23,9 @@
 		MemberDao dao = (MemberDao)MemberDao.getInstance();
 		
 		MemberDto dto = new MemberDto("",email,password);
-		boolean result = dao.Login(dto);
+		dto = (MemberDto)dao.Login(dto);
 		
-		if (result){
+		if (dto !=null){
 			session.setAttribute("login", dto);
 			session.setMaxInactiveInterval(30 * 60);
 	%>
