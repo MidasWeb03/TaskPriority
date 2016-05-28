@@ -1,9 +1,11 @@
+<%@page import="dto.FriendDto"%>
 <%@page import="dto.Dto"%>
 <%@page import="dto.CalendarDto"%>
 <%@page import="dto.MemberDto"%>
 <%@page import="dao.Dao"%>
 <%@ page import="conn.conn2DB"%>
 <%@ page import="dao.CalendarDao"%>
+<%@ page import="dao.FriendDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList"%>
@@ -17,23 +19,17 @@
 		request.setCharacterEncoding("UTF-8");
 		MemberDto dto = (MemberDto)session.getAttribute("login");
 		CalendarDao dao = (CalendarDao)CalendarDao.getInstance();
+		FriendDao friendDao = (FriendDao)FriendDao.getInstance();
 		
 		
 		/* 이 페이지 불러올 데이터 캘린더 리스트 & 친구 리스트*/
 		ArrayList<Dto> calendarList = (ArrayList<Dto>)dao.readAllTuple(dto);
 		
-		ArrayList<MemberDto> friendList= new ArrayList<MemberDto>();
-				
-				friendList.add(new MemberDto("test" ,"asd@naver.com",""));
-				friendList.add(new MemberDto("test1" ,"asd1@naver.com",""));
-				friendList.add(new MemberDto("test2" ,"asd2@naver.com",""));
-				friendList.add(new MemberDto("test3" ,"asd3@naver.com",""));
-				friendList.add(new MemberDto("test4" ,"asd4@naver.com",""));
-				friendList.add(new MemberDto("test5" ,"asd5@naver.com",""));
-				friendList.add(new MemberDto("test6" ,"asd6@naver.com",""));
+		ArrayList<Dto> friendList= (ArrayList<Dto>)friendDao.readAllFriends(new FriendDto(dto.getEmail(),""));
 	%>
 </head>
 <body>
+<jsp:include page="layout_top.jsp"></jsp:include>
 	<div>
 		<h2>Calendar List</h2>
 		<ul>
@@ -57,10 +53,12 @@
 				<input id="addFriendList" type="hidden" name="friendList"   />
 			</div>
 			<select id="friendList" >
+				<option value="-------">-------</option>
 				<%
 					for(int i = 0 ; i < friendList.size(); i++){
+						MemberDto memberDto =  (MemberDto)(friendList.get(i));
 						%>				
-						<option value="<%= friendList.get(i).getEmail() %>" > <%= friendList.get(i).getName()+"  " + friendList.get(i).getEmail() %></option>
+						<option value="<%=memberDto.getEmail()%>"> <%=memberDto.getName()%> <%=memberDto.getEmail()%></option>
 				<%	}
 				%>
 			</select>
@@ -83,7 +81,7 @@
 			}
 		});
 		
-		$("#removeBtn").click(function(){
+		$(".removeBtn").click(function(){
 			location.href="deleteCalendar.jsp?cid="+$(this).val();
 		});
 	</script>

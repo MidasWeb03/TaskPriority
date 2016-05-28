@@ -1,7 +1,9 @@
+<%@page import="dao.FriendDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
  <%@page import="dto.Dto"%>
 <%@page import="dto.MemberDto"%>
+<%@page import="dto.FriendDto"%>
 <%@page import="dao.Dao"%>
 <%@ page import="conn.conn2DB"%>
 <%@ page import="dao.MemberDao"%>
@@ -19,7 +21,22 @@
 		String MEmail = request.getParameter("MEmail");
 		String FEmail= request.getParameter("FEmail");
 		MemberDao dao = (MemberDao)MemberDao.getInstance();
-		MemberDto dto;
+		FriendDao friendDao = (FriendDao)FriendDao.getInstance();
+		boolean result = friendDao.addTuple((Dto)(new FriendDto(MEmail,FEmail)));
+		if (result){
+		%>
+		<script>
+			alert("친구 추가 성공") 
+			
+		</script>
+		<%
+			} else {
+		%>
+		<script>
+			alert("친구 추가 실패  < 이미 친구로 존재 합니다. >");
+		</script>
+		<%
+			}
 		%>
 </body>
 </html>
