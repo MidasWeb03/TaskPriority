@@ -10,6 +10,7 @@ import conn.conn2DB;
 import dto.CalendarDto;
 import dto.Dto;
 import dto.MemberDto;
+import dto.TaskDto;
 
 public class CalendarDao implements Dao{
 	private conn2DB c2db;
@@ -64,8 +65,31 @@ public class CalendarDao implements Dao{
 		return true;
 	}
 	public boolean addTuple(Dto dto){
-		
-		return true;
+		String sql = " insert into challengeDB.task "
+				+ " (tid, cid, taskName, startDate,endDate,description,priority) "
+				+ " values(?, ?, ?, ?, ?, ?, ?) ";
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		TaskDto taskdto = (TaskDto)dto; 
+		boolean result = false;
+		try{
+			conn = c2db.getConnection();
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, taskdto.getTid());
+			psmt.setInt(2, taskdto.getCid());
+			psmt.setString(3, taskdto.getTaskName());
+			psmt.setString(4, taskdto.getStartDate());
+			psmt.setString(5, taskdto.getEndDate());
+			psmt.setString(6, taskdto.getDescription());
+			psmt.setInt(7, taskdto.getPriority());
+			result = psmt.execute();
+		} catch (Exception e){
+			log("an error from [CalendarDao.addTuple()]", e);
+		} finally {
+			c2db.close(conn, psmt, null);
+		}
+		if(result) 	return true;
+		else		return false;
 	}
 	// delete
 	public boolean deleteCalendar(CalendarDto caldto){
@@ -87,11 +111,59 @@ public class CalendarDao implements Dao{
 		return true;
 	}
 	public boolean deleteTuple(Dto dto){
+		String sql = "delete from challengeDB.task where tid = ?";
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		TaskDto taskdto = (TaskDto)dto;
+		boolean result;
+		try{
+			conn = c2db.getConnection();
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, taskdto.getTid());
+			result = psmt.execute();
+			if(!result) return false; 
+		} catch(Exception e) {
+			log("an error from [CalendarDao.deleteTuple()]", e);
+		} finally {
+			c2db.close(conn, psmt, null);
+		}
 		return true;
 	}
 	// update
 	public boolean updateTuple(Dto dto){
-		return true;
+		String sql = "update challengeDB.task set";
+		int tid=0, priority=0;
+		String tname=null, sdate=null, edate=null, color=null, description=null;
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		TaskDto taskdto = (TaskDto)dto;
+		tid = taskdto.getTid();
+		if(tid == 0) return false;
+		if((priority=taskdto.getPriority()) != 0) sql += " priority=? ";
+		if((tname=taskdto.getTaskName()) != null) sql += " taskname=? ";
+		if((sdate=taskdto.getStartDate()) != null) sql += " startdate=? ";
+		if((edate=taskdto.getEndDate()) != null) sql += " enddate=? ";
+		if((color=taskdto.getColor()) != null) sql += "color=? ";
+		if((description=taskdto.getDescription()) != null) sql += " description=? ";
+		sql += " where Email=?";
+		boolean result = false;
+		int idx=1;
+		try{
+			conn = c2db.getConnection();
+			psmt = conn.prepareStatement(sql);
+			if( != null) psmt.setString(idx++, );
+			psmt.setString(idx, email);
+			result = psmt.execute();
+		} catch(Exception e) {
+			log("an error from [CalendarDao.updateTuple()]", e);
+		} finally {
+			c2db.close(conn, psmt, null);
+		}
+		if(result){
+			return true;
+		} else {
+			return false;
+		}
 	}
 	// read
 	public Dto readTuple(Dto dto){
