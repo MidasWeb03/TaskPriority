@@ -7,9 +7,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>일정 추가</title>
 <style>
-.nav li{
-	display:inline;
-}
 body{
 	text-align:center;
 }
@@ -42,6 +39,7 @@ int tmin = cal.get(Calendar.MINUTE);
 </div>
 <div class="nav">
 <ul>
+	<li><a href="main.jsp">홈</a></li>
 	<li><a href="calendarMenu.jsp">캘린더</a></li>
 	<li><a href="friendMenu">친구</a></li>
 	<li><a href="optionMenu">설정</a></li>
@@ -53,7 +51,7 @@ int tmin = cal.get(Calendar.MINUTE);
 	<table border="1">
 		<tr>
 			<th>제목</th>
-			<td><input type="text" name="taskName"/></td>
+			<td><input type="text" name="taskName" style="width:100%"/></td>
 		</tr>
 		<tr>
 			<th>일정</th>
@@ -123,15 +121,31 @@ int tmin = cal.get(Calendar.MINUTE);
 		</tr>
 		<tr>
 			<th>메모</th>
-			<td><input type="text" name="taskName"/></td>
+			<td><textarea rows="10" cols="100%" name="task_memo"></textarea></td>
 		</tr>
 		<tr>
 			<th>중요도</th>
-			<td><input type="text" name="taskName"/></td>
+			<td>
+				<select id="task_priority" style="width:100%">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</td>
 		</tr>
 		<tr>
 			<th>색깔</th>
-			<td><input type="text" name="taskName"/></td>
+			<td>
+			<select id="task_color" style="width:100%">
+				<option value="red">빨강</option>
+				<option value="blue">파란</option>
+				<option value="green">녹색</option>
+				<option value="grey">회색</option>
+				<option value="black">블랙</option>
+			</select>
+			</td>
 		</tr>
 	</table>
 	<div class="transmit">

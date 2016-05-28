@@ -10,7 +10,7 @@
 	 String s = "";
 	 
 	 s+= String.format("<a href='%s?year=%d&month=%d&day=%d'>",
-			 "daylist.jsp", year, month, day);
+			 "dayList.jsp", year, month, day);
 	 
 	 s+= String.format("%2d", day);
 	 s+= "</a>";
@@ -76,8 +76,11 @@
 	display:inline-flex;
 }
 
-.nav li{
-	display:inline;
+.content #clist{
+	border:1px solid red;
+}
+.content #cpriority{
+	border:1px solid blue;
 }
 </style>
 </head>
@@ -129,17 +132,8 @@ String nn = String.format("<a href='%s?year=%d&month=%d'><img src='image/last.gi
 							"main.jsp", year+1, month);
 %>
 
-<div class="header">
-<h2>무엇이 중헌디</h2>
-</div>
-<div class="nav">
-<ul>
-	<li><a href="calendarMenu.jsp">캘린더</a></li>
-	<li><a href="friendMenu">친구</a></li>
-	<li><a href="optionMenu">설정</a></li>
-</ul>
-  
-</div>
+<jsp:include page="layout_top.jsp"></jsp:include>
+
 <div class="content">
 	<div id="ccalendar">
 		<table border="1">

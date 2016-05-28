@@ -15,6 +15,7 @@ public class MyCalendar {
 	String description;
 	int priority;
 	
+	public MyCalendar(){}
 	
 	public MyCalendar(String email, String cname, int count, int cid, int tid, String taskName, String startDate,
 			String writeDate, String endDate, String color, String description, int priority) {
