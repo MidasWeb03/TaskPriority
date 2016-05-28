@@ -99,6 +99,25 @@ public class CalendarDao implements Dao{
 		else		return false;
 	}
 	// delete
+	public boolean deleteChecked(String email, int cid){
+		String sql = "delete from challengeDB.Calendar where cid=? and email =?";
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		boolean result;
+		try{
+			conn = c2db.getConnection();
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, cid);
+			psmt.setString(2, email);
+			result = psmt.execute();
+			if(!result) return false; 
+		} catch(Exception e) {
+			log("an error from [CalendarDao.deleteChecked()]", e);
+		} finally {
+			c2db.close(conn, psmt, null);
+		}
+		return true;
+	}
 	public boolean deleteCalendar(CalendarDto caldto){
 		String sql = "delete from challengeDB.Calendar where cid=?";
 		Connection conn = null;
