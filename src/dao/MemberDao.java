@@ -105,6 +105,7 @@ public class MemberDao implements Dao{
 			return false;
 		}
 	}
+	@Override
 	public Dto readTuple(Dto dto){
 		String sql = "select * from challengeDB.Member"
 				+ " where Email = ?";
