@@ -19,7 +19,7 @@ public class conn2DB {
 	
 	public Connection getConnection(){
 		Connection conn = null;
-		String url = "jdbc:mysql://localhost:3306";
+		String url = "jdbc:mysql://192.168.0.25:3306";
 		String user = "root";
 		String password = "";
 		
