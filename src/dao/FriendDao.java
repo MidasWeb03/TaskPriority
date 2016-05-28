@@ -50,7 +50,7 @@ public class FriendDao implements Dao{
 	}
 	public boolean deleteTuple(Dto dto){
 		String sql = "delete from challengeDB.Friend"
-				+ " where MEmail = ?, FEmail = ?";
+				+ " where MEmail = ? and FEmail = ?";
 		Connection conn = null;
 		PreparedStatement psmt = null;
 		FriendDto fridto = (FriendDto)dto; 
@@ -103,14 +103,16 @@ public class FriendDao implements Dao{
 	}
 	public List<Dto> readAllFriends(Dto dto){
 		List<Dto> fList = new ArrayList<Dto>();
-		String sql = "select * from challengeDB.Friend order by FEmail";
+		String sql = "select * from challengeDB.Friend where MEmail = ? order by FEmail";
 		Connection conn = null;
 		PreparedStatement psmt = null;
+		FriendDto fridto = (FriendDto)dto; 
 		ResultSet rs = null;
 		String memail, femail;
 		try{
 			conn = c2db.getConnection();
 			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, fridto.getMEmail());
 			rs = psmt.executeQuery();
 			while (rs.next()){
 		        memail = rs.getString("MEmail");
