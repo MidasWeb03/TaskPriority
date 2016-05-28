@@ -1,3 +1,4 @@
+<%@page import="dao.CalendarDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="md.challenge.MyCalendar"%>
@@ -39,7 +40,7 @@ String day = request.getParameter("day");
 
 String dates = year + two(month) + two(day);
 
-//MemberDAO cdao = MemberDAO.getInstance();
+CalendarDao cdao = (CalendarDao)CalendarDao.getInstance();
 //List<MyCalendar> cdtos = cdao.getDayList(user.getId(), dates);
 %>
 

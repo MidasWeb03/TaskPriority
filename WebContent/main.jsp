@@ -1,3 +1,4 @@
+<%@page import="dto.TaskDto"%>
 <%@page import="dao.CalendarDao"%>
 <%@page import="md.challenge.MyCalendar"%>
 <%@page import="java.util.ArrayList"%>
@@ -47,20 +48,22 @@
 	 }
 	 return s;
  }
- public String makeTable(int year, int month, int day, List<MyCalendar> lcdtos){
+ public String makeTable(int year, int month, int day, List<Dto> lcdtos){
 	 String s = "";
 	 String dates = (year + "") + two(month + "") + two(day + "");
+	 
 	 
 	 s = "<table>";
 	 s += "<col width='98'>";
 	 
-	 for(MyCalendar lcd:lcdtos){
-		 if(lcd.getStartDate().substring(0, 8).equals(dates)){
+	 for(Dto lcd:lcdtos){
+		 TaskDto tdo = (TaskDto)lcd;
+		 if(tdo.getStartDate().substring(0, 10).equals(dates)){
 			 s += "<tr bgcolor='pink'>";
 			 s += "<td>";
-			 s += "<a href='calendardetail.jsp?seq=" + lcd.getTid() + "'>";
+			 s += "<a href='calendardetail.jsp?seq=" + tdo.getTid() + "'>";
 			 s += "<font style='font-size:8; color:red'>";
-			 s += dot3(lcd.getTaskName());
+			 s += dot3(tdo.getTaskName());
 			 s += "</font>";
 			 s += "</td>";
 			 s += "</tr>";
@@ -129,6 +132,8 @@ if(month>12){
 cal.set(year, month-1, 1);		// 첫 날로 세팅
 
 // List<MyCalendar> cdtos = dao.getMyCalendarList(user.getId(), year+two(month+""));
+CalendarDao cdao = (CalendarDao)CalendarDao.getInstance();
+//List<Dto> ldto = cdao.
 
 int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 
@@ -168,7 +173,7 @@ String nn = String.format("<a href='%s?year=%d&month=%d'><img src='image/last.gi
 		 	int lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 		 	for(int i=1; i<=lastDay; i++){%>
 		 		<td><%=callist(year, month, i)%>&nbsp;<%=showPen(year, month, i) %>
-		<%--  		<%=makeTable(year, month, i, null) %> --%>
+<%-- 		 		<%=makeTable(year, month, i, null) %> --%>
 		 		</td>
 		 		<%
 		 		if((i + dayOfWeek - 1)%7 == 0){%>
@@ -185,8 +190,9 @@ String nn = String.format("<a href='%s?year=%d&month=%d'><img src='image/last.gi
 	<div class="clist">
 	달력목록
 	<%
-	CalendarDao cdao = (CalendarDao)CalendarDao.getInstance();
-	List<Dto> lcdto = cdao.readAllTuple(mdto);%>
+	List<Dto> lcdto = cdao.readAllTuple(mdto);
+	session.setAttribute("initcal",cdao.getCurCid(lcdto));
+	%>
 	<ul style="">
 	<%for(int i=0; i<lcdto.size(); i++){
 		CalendarDto cdto = (CalendarDto)lcdto.get(i);

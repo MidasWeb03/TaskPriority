@@ -35,18 +35,7 @@ int tmin = cal.get(Calendar.MINUTE);
 %>
 
 
-<div class="header">
-<h2>무엇이 중헌디</h2>
-</div>
-<div class="nav">
-<ul>
-	<li><a href="main.jsp">홈</a></li>
-	<li><a href="calendarMenu.jsp">캘린더</a></li>
-	<li><a href="friendMenu">친구</a></li>
-	<li><a href="optionMenu">설정</a></li>
-</ul>
-  
-</div>
+<jsp:include page="layout_top.jsp"></jsp:include>
 <div class="content">
 	<form action="calendarWriteAf.jsp" method="post">
 	<table border="1">
@@ -140,11 +129,11 @@ int tmin = cal.get(Calendar.MINUTE);
 			<th>색깔</th>
 			<td>
 			<select name="taskColor" style="width:100%">
-				<option value="red">빨강</option>
-				<option value="blue">파란</option>
-				<option value="green">녹색</option>
-				<option value="grey">회색</option>
-				<option value="black">블랙</option>
+				<option value="#ff0000">빨강</option>
+				<option value="#0000ff">파란</option>
+				<option value="#00ff00">녹색</option>
+				<option value="#eaeaea">회색</option>
+				<option value="#000000">블랙</option>
 			</select>
 			</td>
 		</tr>

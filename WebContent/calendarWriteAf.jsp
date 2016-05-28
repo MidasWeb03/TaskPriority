@@ -8,6 +8,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<%!
+public String two(String msg){
+	 return msg.trim().length()<2 ? "0" + msg : msg.trim();
+}
+%>
 </head>
 <body>
 <%request.setCharacterEncoding("UTF-8"); %>
@@ -27,16 +32,27 @@ String taskPriority = request.getParameter("taskPriority");
 String taskColor = request.getParameter("taskColor");
 String taskMemo = request.getParameter("taskMemo");
 
-String startDate = byear + "-" + bmonth + "-" + bday + " " + bhour + ":" + bmin;
-String endDate = ayear + "-" + amonth + "-" + aday + " " + ahour + ":" + amin;
+String startDate = byear + "-" + two(bmonth) + "-" + two(bday) + " " + two(bhour) + ":" + two(bmin);
+String endDate = ayear + "-" + two(amonth) + "-" + two(aday) + " " + two(ahour) + ":" + two(amin);
 
-TaskDto tdto = new TaskDto(0, 0, Integer.parseInt(taskPriority), taskName, startDate, endDate, null, taskColor, taskMemo);
+int cid = (int)session.getAttribute("initcal");
+
+TaskDto tdto = new TaskDto(0, cid, Integer.parseInt(taskPriority), taskName, startDate, endDate, null, taskColor, taskMemo);
 
 CalendarDao cdao = (CalendarDao)CalendarDao.getInstance();
-
+System.out.println("asdfasdf" + tdto.toString());
 boolean result = cdao.addTuple(tdto);
 
-
-%>
+if(result){%>
+	<script>
+	alert("일정이 추가되었습니다.");
+	location.href="main.jsp";
+	</script>
+<%} else{%>
+<script>
+	alert("일정이 추가를 실패하였습니다.");
+	location.href="main.jsp";
+	</script>
+<%}%>
 </body>
 </html>
