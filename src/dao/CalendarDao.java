@@ -218,4 +218,9 @@ public class CalendarDao implements Dao{
 		System.out.print(str+" ");
 		e.printStackTrace();
 	}
+	@Override
+	public List<MemberDto> findUser(Dto dto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

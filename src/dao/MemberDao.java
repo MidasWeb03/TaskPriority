@@ -216,4 +216,55 @@ public class MemberDao implements Dao{
 		System.out.print(str+" ");
 		e.printStackTrace();
 	}
+	@Override
+	public List<MemberDto> findUser(Dto dto) {
+		MemberDto memDto = (MemberDto)dto;
+		
+		
+		
+		String sqlName = " select name , email from  challengeDB.Member"
+				+ " where name=?  ";
+		String sqlEmail= " select name , email from  challengeDB.Member"
+				+ " where email=?  ";
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		
+		ResultSet rs;
+		try{
+			conn = c2db.getConnection();
+			ArrayList <MemberDto> list = new ArrayList<MemberDto>();
+			if(memDto.getName() != ""){
+				psmt = conn.prepareStatement(sqlName);
+				psmt.setString(1, memDto.getName());
+				rs = psmt.executeQuery();
+				while(rs.next()){
+					memDto = new MemberDto();
+					memDto.setEmail(rs.getString("email"));
+					memDto.setName(rs.getString("name"));
+					
+					list.add(memDto);
+				} 	
+				
+				return list;
+			}else if(memDto.getEmail() != ""){
+				psmt = conn.prepareStatement(sqlEmail);
+				psmt.setString(1, memDto.getEmail());
+				rs = psmt.executeQuery();
+				while(rs.next()){
+					memDto = new MemberDto();
+					memDto.setEmail(rs.getString("email"));
+					memDto.setName(rs.getString("name"));
+					list.add(memDto);
+				} 	
+				
+				return list;
+			}
+			
+		} catch(Exception e) {
+			log("an error from [MemberDao.deleteTuple()]", e);
+		} finally {
+			c2db.close(conn, psmt, null);
+		}
+		return null;
+	}
 }

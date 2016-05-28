@@ -1,6 +1,9 @@
 package dao;
 
+import java.util.List;
+
 import dto.Dto;
+import dto.MemberDto;
 
 public interface Dao {
 	boolean addTuple(Dto dto);
@@ -9,4 +12,5 @@ public interface Dao {
 	Dto readTuple(Dto dto);
 	void log(String str);
 	void log(String str, Exception e);
+	List<MemberDto> findUser(Dto dto);
 }
