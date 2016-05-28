@@ -17,6 +17,10 @@
 	float:right;
 	margin-right:10%;
 }
+.header{
+	background-image:url("image/background_tp.png");
+	height:40%;
+}
 </style>
 </head>
 <body>
