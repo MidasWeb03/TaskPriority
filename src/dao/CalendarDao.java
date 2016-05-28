@@ -73,8 +73,8 @@ public class CalendarDao implements Dao{
 	}
 	public boolean addTuple(Dto dto){
 		String sql = " insert into challengeDB.task "
-				+ " (tid, cid, taskName, startDate,endDate,description,priority) "
-				+ " values(?, ?, ?, ?, ?, ?, ?) ";
+				+ " (cid, taskName, startDate,endDate,description,priority) "
+				+ " values(?, ?, ?, ?, ?, ?) ";
 		Connection conn = null;
 		PreparedStatement psmt = null;
 		TaskDto taskdto = (TaskDto)dto; 
@@ -82,13 +82,12 @@ public class CalendarDao implements Dao{
 		try{
 			conn = c2db.getConnection();
 			psmt = conn.prepareStatement(sql);
-			psmt.setInt(1, taskdto.getTid());
-			psmt.setInt(2, taskdto.getCid());
-			psmt.setString(3, taskdto.getTaskName());
-			psmt.setString(4, taskdto.getStartDate());
-			psmt.setString(5, taskdto.getEndDate());
-			psmt.setString(6, taskdto.getDescription());
-			psmt.setInt(7, taskdto.getPriority());
+			psmt.setInt(1, taskdto.getCid());
+			psmt.setString(2, taskdto.getTaskName());
+			psmt.setString(3, taskdto.getStartDate());
+			psmt.setString(4, taskdto.getEndDate());
+			psmt.setString(5, taskdto.getDescription());
+			psmt.setInt(6, taskdto.getPriority());
 			result = psmt.execute();
 		} catch (Exception e){
 			log("an error from [CalendarDao.addTuple()]", e);
@@ -275,7 +274,7 @@ public class CalendarDao implements Dao{
 		int cid;
 		String sql1 = "select cid, onOff "
 				+ "from challengeDB.Member as m, challengeDB.calchecked as c "
-				+ "where m.email = c.MEmail and m.email = ?";
+				+ "where m.email = c.MEmail and m.email = ? order by cid";
 		String sql2 = "select cname "
 				+ "from challengeDB.calendar as c "
 				+ "where c.cid = ?";
@@ -303,6 +302,14 @@ public class CalendarDao implements Dao{
 			c2db.close(null, psmt2, null);
 		}
 		return dtoList;
+	}
+	public int getCurCid(List<Dto> dtolist){
+		if(dtolist == null) return 0;
+		for(int i=0; i<dtolist.size();i++){
+			CalendarDto caldto = (CalendarDto)dtolist.get(i);
+			if(caldto.getIsActive()) return caldto.getCid();
+		}
+		return 0;
 	}
 	// log
 	public void log(String str){
