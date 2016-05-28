@@ -319,7 +319,7 @@ public class CalendarDao implements Dao{
 		PreparedStatement psmt = null;
 		int tid=0, cid=0,priority=0;
 		String tname=null, sdate=null, edate=null, wdate=null,color=null, description=null;
-		int[] getDate = dateTok(date);
+		int[] getDate = dateTok2(date);
 		List<Dto> taskList = new ArrayList<Dto>();
 		ResultSet rs;
 		try{
@@ -331,8 +331,8 @@ public class CalendarDao implements Dao{
 			while(rs.next()){
 				sdate = rs.getString("startdate");
 				edate = rs.getString("enddate");
-				pickDate_from = dateTok(sdate);
-				pickDate_to = dateTok(edate);
+				pickDate_from = dateTok2(sdate);
+				pickDate_to = dateTok2(edate);
 				if(pickDate_from[0]<=getDate[0] && pickDate_to[0]>=getDate[0] &&
 						pickDate_from[1]<=getDate[1] && pickDate_to[1]>=getDate[1]){
 					tid = rs.getInt("tid");
@@ -353,11 +353,61 @@ public class CalendarDao implements Dao{
 		}
 		return taskList;
 	}
-	public int[] dateTok(String date){
+	public List<Dto> subTasksForADay(int c_id, String date){
+		String sql = "select * from challenge_db.task"
+				+ " where cid = ? order by startdate asc, enddate asc";
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		int tid=0, cid=0,priority=0;
+		String tname=null, sdate=null, edate=null, wdate=null,color=null, description=null;
+		int[] getDate = dateTok3(date);
+		List<Dto> taskList = new ArrayList<Dto>();
+		ResultSet rs;
+		try{
+			conn = c2db.getConnection();
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, c_id);
+			rs = psmt.executeQuery();
+			int[] pickDate_from, pickDate_to;
+			while(rs.next()){
+				sdate = rs.getString("startdate");
+				edate = rs.getString("enddate");
+				pickDate_from = dateTok3(sdate);
+				pickDate_to = dateTok3(edate);
+				if(pickDate_from[0]<=getDate[0] && pickDate_to[0]>=getDate[0] &&
+						pickDate_from[1]<=getDate[1] && pickDate_to[1]>=getDate[1] &&
+								pickDate_from[2]<=getDate[2] && pickDate_to[2]>=getDate[2]){
+					tid = rs.getInt("tid");
+					cid = rs.getInt("cid");
+					priority = rs.getInt("priority");
+					tname = rs.getString("taskname");
+					wdate = rs.getString("writedate");
+					color = rs.getString("color");
+					description = rs.getString("description");
+					TaskDto taskdto =new TaskDto(tid, cid, priority, tname,sdate, edate, wdate, color, description);
+					taskList.add((Dto)taskdto);
+				}
+			}
+		} catch(Exception e) {
+			log("an error from [MemberDao.deleteTuple()]", e);
+		} finally {
+			c2db.close(conn, psmt, null);
+		}
+		return taskList;
+	}
+	public int[] dateTok2(String date){
 		String[] ss = date.split(" ")[0].split("-");
 		int[] ret = new int[2];
 		ret[0] = Integer.parseInt(ss[0]);
 		ret[1] = Integer.parseInt(ss[1]);
+		return ret;
+	}
+	public int[] dateTok3(String date){
+		String[] ss = date.split(" ")[0].split("-");
+		int[] ret = new int[3];
+		ret[0] = Integer.parseInt(ss[0]);
+		ret[1] = Integer.parseInt(ss[1]);
+		ret[2] = Integer.parseInt(ss[2]);
 		return ret;
 	}
 	// log
