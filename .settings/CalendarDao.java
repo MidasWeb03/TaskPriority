@@ -310,7 +310,56 @@ public class CalendarDao implements Dao{
 		}
 		return 0;
 	}
-	
+	public List<Dto> subTasks(int c_id, String date){
+		String sql ="select * from task where cid = ? order by startDate ASC, endDate ASC";
+		ResultSet rs;
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		List<Dto> taskList = new ArrayList<Dto>();
+		int[] getDate = YM(date);
+		int tid=0, cid=0,priority=0;
+		String tname=null, sdate=null, edate=null, wdate=null,color=null, description=null;
+		try{
+			conn = c2db.getConnection();
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, c_id);
+			rs = psmt.executeQuery();
+			int[] pickDate_from;
+			int[] pickDate_to;
+			while(rs.next()){
+				sdate = rs.getString("startdate");
+				edate = rs.getString("enddate");
+				pickDate_from = YM(sdate);
+				pickDate_to = YM(edate);
+				if(pickDate_from[0]<=getDate[0] && pickDate_to[0]>=getDate[0]
+						&& pickDate_from[1]<=getDate[1] && pickDate_to[1]>=getDate[1]){
+					tid = rs.getInt("tid");
+					cid = rs.getInt("cid");
+					priority = rs.getInt("priority");
+					tname = rs.getString("taskname");
+					sdate = rs.getString("startdate");
+					
+					wdate = rs.getString("writedate");
+					color = rs.getString("color");
+					description = rs.getString("description");
+					TaskDto taskdto =new TaskDto(tid, cid, priority, tname,sdate, edate, wdate, color, description);
+					taskList.add((Dto)taskdto);
+				}
+			}
+		} catch(Exception e) {
+			log("an error from [MemberDao.deleteTuple()]", e);
+		} finally {
+			c2db.close(conn, psmt, null);
+		}
+		return taskList;
+	}
+	public int[] YM(String date){
+		String[] split_str = date.split(" ")[0].split("-");
+		int[] ym = new int[2];
+		ym[0] = Integer.parseInt(split_str[0]);
+		ym[1] = Integer.parseInt(split_str[1]);
+		return ym;
+	}
 	// log
 	public void log(String str){
 		System.out.println(str);
