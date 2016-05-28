@@ -84,5 +84,10 @@ public class TaskDto implements Dto{
 	public void setDescription(String description){
 		this.description = description;
 	}
-	
+	@Override
+	public String toString() {
+		return "TaskDto [tid=" + tid + ", cid=" + cid + ", priority=" + priority + ", taskName=" + taskName
+				+ ", startDate=" + startDate + ", endDate=" + endDate + ", writeDate=" + writeDate + ", color=" + color
+				+ ", description=" + description + "]";
+	}
 }
