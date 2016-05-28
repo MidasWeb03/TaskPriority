@@ -1,5 +1,11 @@
+<%@page import="dto.Dto"%>
+<%@page import="dto.MemberDto"%>
+<%@page import="dao.Dao"%>
+<%@ page import="conn.conn2DB" %>
+<%@ page import="dao.MemberDao" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+   
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,24 +13,24 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<%
-		request.setCharacterEncoding("UTF-8");
+	<%  
+		request.setCharacterEncoding("UTF-8"); 
 	%>
 	<%
-		String id = request.getParameter("id");
-		String pwd = request.getParameter("pwd");
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
 
-// 		MemberDAO dao = MemberDAO.getInstance();
-// 		Member mem = dao.Login(new Member(id, pwd, null, null, 0));
-
-// 		if (mem != null && !mem.getId().equals("")) {
-		boolean mem = true;
-		if (mem){
-// 			session.setAttribute("login", mem);
+		MemberDao dao = (MemberDao)MemberDao.getInstance();
+		
+		MemberDto dto = new MemberDto("",email,password);
+		boolean result = dao.Login(dto);
+		
+		if (result){
+			session.setAttribute("login", dto);
 			session.setMaxInactiveInterval(30 * 60);
 	%>
 	<script>
-		alert("로그인 되었습니다!")
+		alert("로그인 되었습니다!") 
 		location.href = "main.jsp";
 	</script>
 	<%

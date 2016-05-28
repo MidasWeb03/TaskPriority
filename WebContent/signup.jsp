@@ -1,15 +1,25 @@
+<%@page import="javax.websocket.Session"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@page import="dto.Dto"%>
+<%@page import="dto.MemberDto"%>
+<%@page import="dao.Dao"%>
+<%@ page import="conn.conn2DB" %>
+<%@ page import="dao.MemberDao" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Sign up Page</title>
 </head>
-<body>
+<body> 
+
+<%
+MemberDao dao = (MemberDao)MemberDao.getInstance();
+%>
 <div>
 		<form action="signupPage.jsp" method="post">
-			<input type="text" name="email" value="" placeholder="Email" /><br />
+			<input id="signupEmail" type="text" name="email" value="" placeholder="Email" /><br />
 			<input type="text" name="name" value="" placeholder="name" /><br />
 			<input id="password" type="password" name="password" value="" placeholder="Password" /><br />
 			<input id="password2" type="password" name="password2" value="" placeholder="Password확인" /><br />
@@ -27,8 +37,9 @@
 			alert("비밀번호 일치 하지 않습니다.");		  
 			  event.preventDefault();
 		  }
-		 
 		});	
+		
+		
 	</script>
 </body>
 </html>
