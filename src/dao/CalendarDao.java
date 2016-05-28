@@ -55,7 +55,7 @@ public class CalendarDao implements Dao{
 				cnt = psmt3.executeUpdate();
 				if(cnt==0) return false;
 				if(fList != null){
-					for(int i=0;i<fList.length;i++){
+					for(int i=1;i<fList.length;i++){
 						psmt3.setString(1, fList[i]);
 						cnt = psmt3.executeUpdate();
 						if(cnt==0) return false;
