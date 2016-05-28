@@ -111,23 +111,26 @@ public class MemberDao implements Dao{
 				+ " where Email = ?";
 		Connection conn = null;
 		PreparedStatement psmt = null;
+		String name, email, pwd;
 		MemberDto memdto = (MemberDto)dto;
-		int result = 0;
+		ResultSet rs;
 		try{
 			conn = c2db.getConnection();
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, memdto.getEmail());
-			result = psmt.executeUpdate();
+			rs = psmt.executeQuery();
+			if(rs.next()){
+				name = rs.getString("Name");
+				email = rs.getString("Email");
+				pwd = rs.getString("Password");
+				return (Dto)(new MemberDto(name,email,pwd));
+			}
 		} catch(Exception e) {
 			log("an error from [MemberDao.deleteTuple()]", e);
 		} finally {
 			c2db.close(conn, psmt, null);
 		}
-		if(result==0){
-			return null;
-		} else {
-			return dto;
-		}
+		return null;
 	}
 	public List<Dto> readAllTuple(){
 		List<Dto> dtoList = new ArrayList<Dto>();
@@ -174,7 +177,31 @@ public class MemberDao implements Dao{
 		}
 		return false;
 	}
-	
+	public boolean signUp(Dto dto){
+		String sql = " insert into challengeDB.Member "
+				+ " (Name, Email, Password) "
+				+ " values(?, ?, ?) ";
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		MemberDto memdto = (MemberDto)readTuple(dto);
+		int result=0;
+		if(memdto != null) return false;
+		memdto = (MemberDto)dto;
+		try{
+			conn = c2db.getConnection();
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, memdto.getName());
+			psmt.setString(2, memdto.getEmail());
+			psmt.setString(3, memdto.getPwd());
+			result = psmt.executeUpdate();
+		} catch(Exception e) {
+			log("an error from [MemberDao.deleteTuple()]", e);
+		} finally {
+			c2db.close(conn, psmt, null);
+		}
+		if(result == 0) return false;
+		else			return true;
+	}
 	public void log(String str){
 		System.out.println(str);
 	}
