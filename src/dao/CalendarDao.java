@@ -26,7 +26,7 @@ public class CalendarDao implements Dao{
 		c2db = new conn2DB();
 	}
 	// create
-	public boolean addCalendar(Dto dto, String cname){
+	public boolean addCalendar(Dto dto, String cname, String[] fList){
 		String sql1 = "insert into challengeDB.Calendar "
 				+ " (cname,email) "
 				+ " values(?, 'elliottful@naver.com') ";
@@ -54,6 +54,13 @@ public class CalendarDao implements Dao{
 				psmt3.setInt(2, rs.getInt("last_insert_id()"));
 				cnt = psmt3.executeUpdate();
 				if(cnt==0) return false;
+				if(fList != null){
+					for(int i=0;i<fList.length;i++){
+						psmt3.setString(1, fList[i]);
+						cnt = psmt3.executeUpdate();
+						if(cnt==0) return false;
+					}
+				}
 			}
 		} catch(Exception e) {
 			log("an error from [CalendarDao.addCalendar()]", e);
@@ -250,10 +257,5 @@ public class CalendarDao implements Dao{
 	public void log(String str, Exception e){
 		System.out.print(str+" ");
 		e.printStackTrace();
-	}
-	@Override
-	public List<MemberDto> findUser(Dto dto) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
