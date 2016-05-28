@@ -78,7 +78,7 @@ public class CalendarDao implements Dao{
 		Connection conn = null;
 		PreparedStatement psmt = null;
 		TaskDto taskdto = (TaskDto)dto; 
-		boolean result = false;
+		int cnt =0;
 		try{
 			conn = c2db.getConnection();
 			psmt = conn.prepareStatement(sql);
@@ -89,14 +89,14 @@ public class CalendarDao implements Dao{
 			psmt.setString(5, taskdto.getDescription());
 			psmt.setInt(6, taskdto.getPriority());
 			psmt.setString(7, taskdto.getColor());
-			result = psmt.execute();
+			cnt = psmt.executeUpdate();
 		} catch (Exception e){
 			log("an error from [CalendarDao.addTuple()]", e);
 		} finally {
 			c2db.close(conn, psmt, null);
 		}
-		if(result) 	return true;
-		else		return false;
+		if(cnt == 0) 	return false;
+		else			return true;
 	}
 	// delete
 	public boolean deleteChecked(String email, int cid){
