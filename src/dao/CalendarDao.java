@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.jmx.snmp.Timestamp;
+
 import conn.conn2DB;
 import dto.CalendarDto;
 import dto.Dto;
@@ -173,8 +175,9 @@ public class CalendarDao implements Dao{
 		if((color=taskdto.getColor()) != null) sql += "color=? ";
 		if((description=taskdto.getDescription()) != null) sql += " description=? ";
 		sql += " where tid=?";
-		boolean result = false;
+		int result = 0;
 		int idx=1;
+		System.out.println(sql);
 		try{
 			conn = c2db.getConnection();
 			psmt = conn.prepareStatement(sql);
@@ -185,13 +188,13 @@ public class CalendarDao implements Dao{
 			if(color != null) psmt.setString(idx++, color);
 			if(description != null) psmt.setString(idx++, description);
 			psmt.setInt(idx, tid);
-			result = psmt.execute();
+			result = psmt.executeUpdate();
 		} catch(Exception e) {
 			log("an error from [CalendarDao.updateTuple()]", e);
 		} finally {
 			c2db.close(conn, psmt, null);
 		}
-		if(result){
+		if(result==1){
 			return true;
 		} else {
 			return false;

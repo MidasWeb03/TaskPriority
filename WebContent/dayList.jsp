@@ -77,7 +77,7 @@ for(int i=0; i<ldto.size(); i++){
 			<td><a href='calendarDetail.jsp?seq=<%=tdto.getTid()%>'><%=tdto.getTaskName() %></a></td>
 			<td>
 				<form action="calendarUpdate.jsp" method="post">
-					<input type="hidden" name="seq" value="<%=tdto.getTid()%>"/>
+					<input type="hidden" name="tid" value="<%=tdto.getTid()%>"/>
 					<input type="submit" value="일정수정"/>
 				</form>
 			</td>

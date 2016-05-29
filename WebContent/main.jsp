@@ -58,11 +58,11 @@
 	 
 	 for(Dto lcd:lcdtos){
 		 TaskDto tdo = (TaskDto)lcd;
-		 System.out.println("subString : " + tdo.getStartDate().substring(0, 10) + " / " + dates);
+		 System.out.println("tdo.getTid() = " + tdo.getTid());
 		 if(tdo.getStartDate().substring(0, 10).equals(dates)){
 			 s += "<tr bgcolor='pink'>";
 			 s += "<td>";
-			 s += "<a href='calendarDetail.jsp?seq=" + tdo.getTid() + "'>";
+			 s += "<a href='calendarDetail.jsp?tid=" + tdo.getTid() + "'>";
 			 s += "<font style='font-size:8; color:red'>";
 			 s += dot3(tdo.getTaskName());
 			 s += "</font>";

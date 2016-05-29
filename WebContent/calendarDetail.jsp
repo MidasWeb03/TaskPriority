@@ -20,53 +20,42 @@ body{
 <body>
 <%request.setCharacterEncoding("UTF-8"); %>
 <%
-String tid = (String)request.getAttribute("tid");
+String tid = (String)request.getParameter("tid");
 
-System.out.println("tid = " + tid);
 CalendarDao cdao = (CalendarDao)CalendarDao.getInstance();
 TaskDto tdto = new TaskDto();
 tdto.setTid(Integer.parseInt(tid));
 tdto = (TaskDto)cdao.readTuple(tdto);
-
-System.out.println(tdto.toString());
-
-Calendar cal = Calendar.getInstance();
-
-int tyear = cal.get(Calendar.YEAR);
-int tmonth = cal.get(Calendar.MONTH);
-int tday = cal.get(Calendar.DATE);
-int thour = cal.get(Calendar.HOUR_OF_DAY);		// 24시간
-int tmin = cal.get(Calendar.MINUTE);		
-
 %>
 <jsp:include page="layout_top.jsp"></jsp:include>
 <div class="content">
-	<form action="calendarWriteAf.jsp" method="post">
+	<form action="calendarUpdate.jsp" method="post">
 	<table border="1">
 		<tr>
 			<th>제목</th>
-			<td><input type="text" name="taskName" style="width:100%"/></td>
+			<td><input type="text" name="taskName" value="<%=tdto.getTaskName() %>" style="width:100%"/></td>
 		</tr>
 		<tr>
 			<th>일정</th>
 			<td>
-				
-				
+				<%=tdto.getStartDate() %> - <%=tdto.getEndDate() %>
 			</td>
 		</tr>
 		<tr>
 			<th>메모</th>
-			<td><textarea rows="10" cols="100%" name="taskMemo"></textarea></td>
+			<td><textarea rows="10" cols="100%" name="taskMemo"><%=tdto.getDescription() %></textarea></td>
 		</tr>
 		<tr>
 			<th>중요도</th>
 			<td>
 				<select name="taskPriority" style="width:100%">
-					<option value="1">1</option>
-					<option value="2">2</option>
-					<option value="3">3</option>
-					<option value="4">4</option>
-					<option value="5">5</option>
+					<%for(int i=1; i<6; i++){ 
+						if(i == tdto.getPriority()){%>
+						<option value=<%=i %> selected="selected"><%=i %></option>
+						<%} else {%>
+						<option value=<%=i %>><%=i %></option>
+						<%} %>
+					<%} %>
 				</select>
 			</td>
 		</tr>
@@ -84,7 +73,7 @@ int tmin = cal.get(Calendar.MINUTE);
 		</tr>
 	</table>
 	<div class="transmit">
-	<input type="submit" value="저장">
+	<input type="submit" value="수정">
 	<a href="main.jsp">취소</a>
 	</div>
 	</form>

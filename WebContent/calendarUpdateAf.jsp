@@ -1,8 +1,7 @@
 <%@page import="dao.CalendarDao"%>
-<%@page import="javax.xml.bind.ParseConversionEvent"%>
+<%@page import="dto.TaskDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="dto.TaskDto" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -31,27 +30,29 @@ String amin = request.getParameter("amin");
 String taskPriority = request.getParameter("taskPriority");
 String taskColor = request.getParameter("taskColor");
 String taskMemo = request.getParameter("taskMemo");
+String tid = request.getParameter("tid");
 
 String startDate = byear + "-" + two(bmonth) + "-" + two(bday) + " " + two(bhour) + ":" + two(bmin);
 String endDate = ayear + "-" + two(amonth) + "-" + two(aday) + " " + two(ahour) + ":" + two(amin);
 
 int cid = (int)session.getAttribute("initcal");
 
-TaskDto tdto = new TaskDto(0, cid, Integer.parseInt(taskPriority), taskName, startDate, endDate, null, taskColor, taskMemo);
+TaskDto tdto = new TaskDto(Integer.parseInt(tid), cid, Integer.parseInt(taskPriority), taskName, startDate, endDate, null, taskColor, taskMemo);
 
 CalendarDao cdao = (CalendarDao)CalendarDao.getInstance();
-boolean result = cdao.addTuple(tdto);
+boolean result = cdao.updateTuple(tdto);
 
 if(result){%>
-	<script>
-	alert("일정이 추가되었습니다.");
-	location.href="main.jsp";
-	</script>
+<script>
+alert("일정이 수정되었습니다.");
+location.href="main.jsp";
+</script>
 <%} else{%>
 <script>
-	alert("일정이 추가를 실패하였습니다.");
-	location.href="main.jsp";
-	</script>
+alert("일정 수정을 실패하였습니다.");
+location.href="main.jsp";
+</script>
 <%}%>
+
 </body>
 </html>
