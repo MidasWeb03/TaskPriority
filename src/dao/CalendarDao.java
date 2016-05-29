@@ -168,11 +168,11 @@ public class CalendarDao implements Dao{
 		TaskDto taskdto = (TaskDto)dto;
 		tid = taskdto.getTid();
 		if(tid == 0) return false;
-		if((priority=taskdto.getPriority()) != 0) sql += " priority=? ";
-		if((tname=taskdto.getTaskName()) != null) sql += " taskname=? ";
-		if((sdate=taskdto.getStartDate()) != null) sql += " startdate=? ";
-		if((edate=taskdto.getEndDate()) != null) sql += " enddate=? ";
-		if((color=taskdto.getColor()) != null) sql += "color=? ";
+		if((priority=taskdto.getPriority()) != 0) sql += " priority=?, ";
+		if((tname=taskdto.getTaskName()) != null) sql += " taskname=?, ";
+		if((sdate=taskdto.getStartDate()) != null) sql += " startdate=?, ";
+		if((edate=taskdto.getEndDate()) != null) sql += " enddate=?, ";
+		if((color=taskdto.getColor()) != null) sql += "color=?, ";
 		if((description=taskdto.getDescription()) != null) sql += " description=? ";
 		sql += " where tid=?";
 		int result = 0;
