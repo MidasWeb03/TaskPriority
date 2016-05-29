@@ -38,7 +38,6 @@ String endDate = ayear + "-" + two(amonth) + "-" + two(aday) + " " + two(ahour) 
 int cid = (int)session.getAttribute("initcal");
 
 TaskDto tdto = new TaskDto(Integer.parseInt(tid), cid, Integer.parseInt(taskPriority), taskName, startDate, endDate, null, taskColor, taskMemo);
-System.out.println(tdto.toString());
 CalendarDao cdao = (CalendarDao)CalendarDao.getInstance();
 boolean result = cdao.updateTuple(tdto);
 

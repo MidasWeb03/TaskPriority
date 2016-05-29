@@ -72,10 +72,6 @@ tdto = (TaskDto)cdao.readTuple(tdto);
 			</td>
 		</tr>
 	</table>
-	<div class="transmit">
-	<input type="submit" value="수정">
-	<a href="main.jsp">취소</a>
-	</div>
 	</form>
 </div>
 

@@ -82,8 +82,8 @@ for(int i=0; i<ldto.size(); i++){
 				</form>
 			</td>
 			<td>
-				<form action="calendardel.jsp" method="post">
-					<input type="hidden" name="seq" value="<%=tdto.getTid()%>"/>
+				<form action="calendarDel.jsp" method="post">
+					<input type="hidden" name="tid" value="<%=tdto.getTid()%>"/>
 					<input type="submit" value="일정삭제"/>
 				</form>
 			</td>

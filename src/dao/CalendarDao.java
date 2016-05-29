@@ -144,13 +144,13 @@ public class CalendarDao implements Dao{
 		Connection conn = null;
 		PreparedStatement psmt = null;
 		TaskDto taskdto = (TaskDto)dto;
-		boolean result;
+		int result=0;
 		try{
 			conn = c2db.getConnection();
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, taskdto.getTid());
-			result = psmt.execute();
-			if(!result) return false; 
+			result = psmt.executeUpdate();
+			if(result==0) return false; 
 		} catch(Exception e) {
 			log("an error from [CalendarDao.deleteTuple()]", e);
 		} finally {
